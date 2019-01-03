@@ -25,6 +25,9 @@ def get_train_args(description='endtoendai/baselines', default_args=None):
     parser.add_argument('--env-id', action='store', dest='ENV_ID',
                         default='Pong', type=str,
                         help='Environment to train the agent in. Defaults to Pong.')
+    parser.add_argument('--agent', action='store', dest='AGENT',
+                        default='dqn2013', type=str,
+                        help='Environment to train the agent in. Defaults to dqn2013.')
 
     # Hyperparameters for DQN
     parser.add_argument('--lr', action='store', dest='LR',
@@ -36,6 +39,18 @@ def get_train_args(description='endtoendai/baselines', default_args=None):
     parser.add_argument('--epsilon', action='store', dest='EPSILON',
                         default=0.1, type=float,
                         help='Epsilon for epsilon-greedy exploration DQN.')
+
+    # Hyperparameters for Replay Buffer
+    parser.add_argument('--replay-buffer-size', action='store', dest='REPLAY_BUFFER_SIZE',
+                        default=1000000, type=int,
+                        help='Size of the experience replay buffer. Defaults to 1000000')
+    parser.add_argument('--batch-size', action='store', dest='BATCH_SIZE',
+                        default=32, type=int,
+                        help='Batch size for sampling from experience replay buffer. Defaults to 32.')
+    parser.add_argument('--min-replay-buffer-size', action='store', dest='MIN_REPLAY_BUFFER_SIZE',
+                        default=32, type=int,
+                        help='Minimum replay buffer size before sampling. Defaults to 32.')
+
     args = parser.parse_args()
 
     if args.ENV_ID not in ['Pong']:
