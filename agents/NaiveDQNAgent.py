@@ -6,7 +6,7 @@ import wandb
 
 
 class NaiveDQNAgent:
-    def __init__(self, env, dqn, optimizer, DISCOUNT, EPSILON):
+    def __init__(self, env, dqn, optimizer, device, DISCOUNT, EPSILON):
         """
         A Deep Q-Network (DQN) agent that can be trained with environments that
         have feature vectors as states and discrete values as actions.
@@ -14,6 +14,7 @@ class NaiveDQNAgent:
         self.env = env
         self.dqn = dqn
         self.optimizer = optimizer
+        self.device = device
 
         self.DISCOUNT = DISCOUNT
         self.EPSILON = EPSILON
