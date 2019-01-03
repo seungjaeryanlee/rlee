@@ -30,6 +30,9 @@ def get_train_args(description='endtoendai/baselines', default_args=None):
                         help='Environment to train the agent in. Defaults to dqn2013.')
 
     # Hyperparameters for DQN
+    parser.add_argument('--nb-steps', action='store', dest='NB_STEPS',
+                        default=10000000, type=int,
+                        help='Number of steps for training DQN.')
     parser.add_argument('--lr', action='store', dest='LR',
                         default=1e-4, type=float,
                         help='Learning rate for optimizing DQN.')
@@ -48,7 +51,7 @@ def get_train_args(description='endtoendai/baselines', default_args=None):
                         default=32, type=int,
                         help='Batch size for sampling from experience replay buffer. Defaults to 32.')
     parser.add_argument('--min-replay-buffer-size', action='store', dest='MIN_REPLAY_BUFFER_SIZE',
-                        default=32, type=int,
+                        default=10000, type=int,
                         help='Minimum replay buffer size before sampling. Defaults to 32.')
 
     args = parser.parse_args()

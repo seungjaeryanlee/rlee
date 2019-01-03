@@ -39,7 +39,7 @@ def main():
                              ARGS.MIN_REPLAY_BUFFER_SIZE)
 
     # Train agent
-    agent.train(100)
+    agent.train(ARGS.NB_STEPS)
 
 
 if __name__ == '__main__':
