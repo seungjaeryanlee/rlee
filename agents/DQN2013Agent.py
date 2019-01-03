@@ -100,7 +100,6 @@ class DQN2013Agent:
 
             t_delta = t_end - t_start
             fps = 1 / (t_end - t_start)
-            print('Time: {:2.4f}\tFPS: {:2.4f}'.format(t_delta, fps))
 
             wandb.log({
                 'Reward': reward,
