@@ -2,15 +2,15 @@
 """
 train_atari.py
 """
-import gym
+from commons import get_train_args
 
 
 def main():
-    # TODO Parse arguments
-    ARGS = get_args()
+    # Parse arguments
+    ARGS = get_train_args()
 
     # TODO Setup Environment
-    env = gym.make(ARGS.ENV_NAME)
+    env = make_env(ARGS.ENV_ID)
 
     # TODO Implement DQN network
     dqn = DQN()
