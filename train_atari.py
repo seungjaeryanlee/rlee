@@ -2,6 +2,7 @@
 """
 train_atari.py
 """
+import torch
 import torch.optim as optim
 import wandb
 
