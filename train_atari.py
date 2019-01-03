@@ -3,6 +3,7 @@
 train_atari.py
 """
 from commons import get_train_args
+from networks import DQN
 
 
 def main():
@@ -12,8 +13,10 @@ def main():
     # TODO Setup Environment
     env = make_env(ARGS.ENV_ID)
 
-    # TODO Implement DQN network
-    dqn = DQN()
+    # Implement DQN network
+    dqn = DQN(num_inputs=env.observation_space.shape[0],
+              num_actions=env.action_space.n)
+
     # TODO Implement NaiveDQNAgent
     agent = NaiveDQNAgent()
 
