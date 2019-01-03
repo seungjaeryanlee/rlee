@@ -149,7 +149,7 @@ class DQN2013Agent:
             # Q_target(s', a')
             next_q_values = self.dqn(next_state_batch)
             next_q_value = next_q_values.max(dim=1)[0].squeeze()
-            expected_q_value = reward_batch + self.DISCOUNT * next_q_value * (1 - done_batch).cpu()
+            expected_q_value = (reward_batch + self.DISCOUNT * next_q_value * (1 - done_batch)).cpu()
 
         assert expected_q_value.shape == q_value.shape
 
