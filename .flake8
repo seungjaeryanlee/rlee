@@ -1,0 +1,6 @@
+[flake8]
+exclude =
+    .git,
+    __pycache__,
+    .ipynb_checkpoints,
+max-line-length = 120
