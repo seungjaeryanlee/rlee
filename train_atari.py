@@ -4,6 +4,7 @@ train_atari.py
 """
 from commons import get_train_args
 from networks import DQN
+from wrappers import make_env
 
 
 def main():
