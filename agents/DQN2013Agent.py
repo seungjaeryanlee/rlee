@@ -2,6 +2,7 @@ import random
 import time
 
 import torch
+import wandb
 
 
 class DQN2013Agent:
@@ -90,12 +91,21 @@ class DQN2013Agent:
                 loss.backward()
                 self.optimizer.step()
 
+                wandb.log({
+                    'Loss': loss,
+                }, step=frame_idx)
+
             # End timer
             t_end = time.time()
 
             t_delta = t_end - t_start
             fps = 1 / (t_end - t_start)
-            print('Time: {:2.4f}\tFPS: {:2.4f}'.format(t_delta, fps))
+
+            wandb.log({
+                'Reward': reward,
+                'Time per frame': t_delta,
+                'FPS': fps,
+            }, step=frame_idx)
 
     def _compute_loss(self, batch):
         """
