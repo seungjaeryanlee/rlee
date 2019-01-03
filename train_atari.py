@@ -3,6 +3,7 @@
 train_atari.py
 """
 import torch.optim as optim
+import wandb
 
 from agents import NaiveDQNAgent, DQN2013Agent
 from commons import get_train_args
@@ -14,6 +15,10 @@ from wrappers import make_env
 def main():
     # Parse arguments
     ARGS = get_train_args()
+
+    # Setup wandb
+    wandb.init(project='baselines')
+    wandb.config.update(ARGS)
 
     # Setup Environment
     env = make_env(ARGS.ENV_ID)

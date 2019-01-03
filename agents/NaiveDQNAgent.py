@@ -2,6 +2,7 @@ import random
 import time
 
 import torch
+import wandb
 
 
 class NaiveDQNAgent:
@@ -79,6 +80,9 @@ class NaiveDQNAgent:
                     frame_idx + 1, nb_frames, episode_reward, loss.item()))
                 state = self.env.reset()
                 episode_reward = 0
+                wandb.log({
+                    'Episode Reward': episode_reward,
+                }, step=frame_idx)
 
             # End timer
             t_end = time.time()
@@ -86,6 +90,13 @@ class NaiveDQNAgent:
             t_delta = t_end - t_start
             fps = 1 / (t_end - t_start)
             print('Time: {:2.4f}\tFPS: {:2.4f}'.format(t_delta, fps))
+
+            wandb.log({
+                'Reward': reward,
+                'Loss': loss,
+                'Time per frame': t_delta,
+                'FPS': fps,
+            }, step=frame_idx)
 
     def _compute_loss(self, batch):
         """
