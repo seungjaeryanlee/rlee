@@ -46,7 +46,7 @@ class DQN2013Agent:
         """
         if random.random() > epsilon:
             with torch.no_grad():
-                q_values = self.dqn(state.to(device)).cpu()
+                q_values = self.dqn(state.to(self.device)).cpu()
             action = q_values.max(1)[1].item()
         else:
             action = self.env.action_space.sample()
@@ -128,11 +128,11 @@ class DQN2013Agent:
         """
         state_batch, action_batch, reward_batch, \
             next_state_batch, done_batch = self.replay_buffer.sample(self.BATCH_SIZE)
-        state_batch = state_batch.to(device)
-        action_batch = action_batch.to(device)
-        reward_batch = reward_batch.to(device)
-        next_state_batch = next_state_batch.to(device)
-        done_batch = done_batch.to(device)
+        state_batch = state_batch.to(self.device)
+        action_batch = action_batch.to(self.device)
+        reward_batch = reward_batch.to(self.device)
+        next_state_batch = next_state_batch.to(self.device)
+        done_batch = done_batch.to(self.device)
 
         # Predicted Q: Q_current(s, a)
         # q_values : torch.Size([BATCH_SIZE, self.env.action_space.n])
