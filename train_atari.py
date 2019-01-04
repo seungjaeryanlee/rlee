@@ -27,6 +27,12 @@ def main():
     # Setup Environment
     env = make_env(ARGS.ENV_ID)
 
+    # Setup Loss Criterion
+    if ARGS.USE_HUBER_LOSS:
+        criterion = nn.SmoothL1Loss()
+    else:
+        criterion = nn.MSELoss()
+
     # Setup NaiveDQNAgent
     if ARGS.AGENT == 'naive':
         dqn = DQN(num_inputs=env.observation_space.shape[0],
@@ -39,7 +45,7 @@ def main():
                                   momentum=ARGS.RMSPROP_MOMENTUM,
                                   centered=ARGS.RMSPROP_CENTERED)
         epsilon_func = get_linear_decay(ARGS.EPSILON_DECAY_START, ARGS.EPSILON_DECAY_FINAL, ARGS.EPSILON_DECAY_DURATION)
-        agent = NaiveDQNAgent(env, dqn, optimizer, epsilon_func, device,
+        agent = NaiveDQNAgent(env, dqn, optimizer, criterion, epsilon_func, device,
                               ARGS.DISCOUNT)
     # Setup DQN2013Agent
     elif ARGS.AGENT == 'dqn2013':
@@ -54,7 +60,7 @@ def main():
                                   centered=ARGS.RMSPROP_CENTERED)
         epsilon_func = get_linear_decay(ARGS.EPSILON_DECAY_START, ARGS.EPSILON_DECAY_FINAL, ARGS.EPSILON_DECAY_DURATION)
         replay_buffer = UniformReplayBuffer(ARGS.REPLAY_BUFFER_SIZE)
-        agent = DQN2013Agent(env, dqn, optimizer, replay_buffer, epsilon_func, device,
+        agent = DQN2013Agent(env, dqn, optimizer, criterion, replay_buffer, epsilon_func, device,
                              ARGS.DISCOUNT,
                              ARGS.BATCH_SIZE,
                              ARGS.MIN_REPLAY_BUFFER_SIZE)
@@ -71,7 +77,7 @@ def main():
                                   centered=ARGS.RMSPROP_CENTERED)
         epsilon_func = get_linear_decay(ARGS.EPSILON_DECAY_START, ARGS.EPSILON_DECAY_FINAL, ARGS.EPSILON_DECAY_DURATION)
         replay_buffer = UniformReplayBuffer(ARGS.REPLAY_BUFFER_SIZE)
-        agent = DQN2015Agent(env, dqn, optimizer, replay_buffer, epsilon_func, device,
+        agent = DQN2015Agent(env, dqn, optimizer, criterion, replay_buffer, epsilon_func, device,
                              ARGS.DISCOUNT,
                              ARGS.BATCH_SIZE,
                              ARGS.MIN_REPLAY_BUFFER_SIZE,
