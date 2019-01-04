@@ -141,7 +141,12 @@ class DQN2015Agent:
                 wandb.log({
                     'Evaluation Episode Reward': eval_episode_reward,
                 }, step=frame_idx)
+
+                # Reset counter
                 nb_episodes_until_eval = self.EVAL_FREQ
+
+                # Reset environment
+                self.env.reset()
 
     def _compute_loss(self, batch):
         """
