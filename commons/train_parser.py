@@ -33,12 +33,30 @@ def get_train_args(description='endtoendai/baselines', default_args=None):
     parser.add_argument('--nb-steps', action='store', dest='NB_STEPS',
                         default=10000000, type=int,
                         help='Number of steps for training DQN.')
-    parser.add_argument('--lr', action='store', dest='LR',
-                        default=1e-4, type=float,
-                        help='Learning rate for optimizing DQN.')
     parser.add_argument('--discount', action='store', dest='DISCOUNT',
                         default=0.99, type=float,
                         help='Discount factor for DQN.')
+
+    # Hyperparameters for RMSprop
+    # https://twitter.com/FlorinGogianu/status/1080139414695759872
+    # TODO Check weight decay hyperparameter again: is this the missing 0.95 hyperparameter?
+    parser.add_argument('--rmsprop-lr', action='store', dest='RMSPROP_LR',
+                        default=2.5e-4, type=float,
+                        help='RMSprop learning rate. Defaults to 2.5e-4')
+    parser.add_argument('--rmsprop-alpha', action='store', dest='RMSPROP_ALPHA',
+                        default=0.95, type=float,
+                        help='RMSprop smoothing constant. Defaults to 0.95')
+    parser.add_argument('--rmsprop-eps', action='store', dest='RMSPROP_EPS',
+                        default=0.01, type=float,
+                        help='RMSprop constant term in denominator to improve numerical stability . Defaults to 0.01')
+    parser.add_argument('--rmsprop-weight-decay', action='store', dest='RMSPROP_WEIGHT_DECAY',
+                        default=0, type=float,
+                        help='RMSprop weight decay . Defaults to 0.')
+    parser.add_argument('--rmsprop-momentum', action='store', dest='RMSPROP_MOMENTUM',
+                        default=0, type=float,
+                        help='RMSprop momentum . Defaults to 0.')
+    parser.add_argument('--rmsprop-not-centered', action='store_true', dest='RMSPROP_NOT_CENTERED',
+                        help='RMSprop is not centered. Defaults to False.')
 
     # Hyperparameters for Replay Buffer
     parser.add_argument('--replay-buffer-size', action='store', dest='REPLAY_BUFFER_SIZE',
@@ -66,5 +84,7 @@ def get_train_args(description='endtoendai/baselines', default_args=None):
 
     if args.ENV_ID not in ['Pong']:
         raise ValueError('{} is not a supported environment.'.format(args.ENV_ID))
+
+    args.RMSPROP_CENTERED = not args.RMSPROP_NOT_CENTERED
 
     return args

@@ -31,7 +31,13 @@ def main():
     if ARGS.AGENT == 'naive':
         dqn = DQN(num_inputs=env.observation_space.shape[0],
                   num_actions=env.action_space.n).to(device)
-        optimizer = optim.Adam(dqn.parameters(), lr=ARGS.LR)
+        optimizer = optim.RMSprop(dqn.parameters(),
+                                  lr=ARGS.RMSPROP_LR,
+                                  alpha=ARGS.RMSPROP_ALPHA,
+                                  eps=ARGS.RMSPROP_EPS,
+                                  weight_decay=ARGS.RMSPROP_WEIGHT_DECAY,
+                                  momentum=ARGS.RMSPROP_MOMENTUM,
+                                  centered=ARGS.RMSPROP_CENTERED)
         epsilon_func = get_linear_decay(ARGS.EPSILON_DECAY_START, ARGS.EPSILON_DECAY_FINAL, ARGS.EPSILON_DECAY_DURATION)
         agent = NaiveDQNAgent(env, dqn, optimizer, epsilon_func, device,
                               ARGS.DISCOUNT)
@@ -39,7 +45,13 @@ def main():
     elif ARGS.AGENT == 'dqn2013':
         dqn = DQN(num_inputs=env.observation_space.shape[0],
                   num_actions=env.action_space.n).to(device)
-        optimizer = optim.Adam(dqn.parameters(), lr=ARGS.LR)
+        optimizer = optim.RMSprop(dqn.parameters(),
+                                  lr=ARGS.RMSPROP_LR,
+                                  alpha=ARGS.RMSPROP_ALPHA,
+                                  eps=ARGS.RMSPROP_EPS,
+                                  weight_decay=ARGS.RMSPROP_WEIGHT_DECAY,
+                                  momentum=ARGS.RMSPROP_MOMENTUM,
+                                  centered=ARGS.RMSPROP_CENTERED)
         epsilon_func = get_linear_decay(ARGS.EPSILON_DECAY_START, ARGS.EPSILON_DECAY_FINAL, ARGS.EPSILON_DECAY_DURATION)
         replay_buffer = UniformReplayBuffer(ARGS.REPLAY_BUFFER_SIZE)
         agent = DQN2013Agent(env, dqn, optimizer, replay_buffer, epsilon_func, device,
