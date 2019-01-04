@@ -49,7 +49,7 @@ class DQN2015Agent:
         """
         if random.random() > epsilon:
             with torch.no_grad():
-                q_values = self.dqn(state.to(self.device)).cpu()
+                q_values = self.current_dqn(state.to(self.device)).cpu()
             action = q_values.max(1)[1].item()
         else:
             action = self.env.action_space.sample()
@@ -86,7 +86,7 @@ class DQN2015Agent:
 
             if done:
                 state = self.env.reset()
-                init_state_value_estimate = self.dqn(state.to(self.device)).max(1)[0].cpu().item()
+                init_state_value_estimate = self.current_dqn(state.to(self.device)).max(1)[0].cpu().item()
 
                 print('Frame {:5d}/{:5d}\tReturn {:3.2f}\tLoss {:2.4f}'.format(
                     frame_idx + 1, nb_frames, episode_reward, loss.item()))
@@ -158,7 +158,7 @@ class DQN2015Agent:
         # q_values : torch.Size([BATCH_SIZE, self.env.action_space.n])
         # action   : torch.Size([BATCH_SIZE])
         # q_value  : torch.Size([BATCH_SIZE])
-        q_values = self.dqn(state_batch)
+        q_values = self.current_dqn(state_batch)
         q_value = q_values.gather(1, action_batch.unsqueeze(1)).squeeze().cpu()
 
         # Target Q: r + gamma * max_{a'} Q_target(s', a')
