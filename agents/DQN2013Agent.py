@@ -81,6 +81,10 @@ class DQN2013Agent:
             if done:
                 print('Frame {:5d}/{:5d}\tReturn {:3.2f}\tLoss {:2.4f}'.format(
                     frame_idx + 1, nb_frames, episode_reward, loss.item()))
+                wandb.log({
+                    'Episode Reward': episode_reward,
+                }, step=frame_idx)
+
                 state = self.env.reset()
                 episode_reward = 0
 

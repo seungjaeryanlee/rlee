@@ -79,11 +79,12 @@ class NaiveDQNAgent:
             if done:
                 print('Frame {:5d}/{:5d}\tReturn {:3.2f}\tLoss {:2.4f}'.format(
                     frame_idx + 1, nb_frames, episode_reward, loss.item()))
-                state = self.env.reset()
-                episode_reward = 0
                 wandb.log({
                     'Episode Reward': episode_reward,
                 }, step=frame_idx)
+
+                state = self.env.reset()
+                episode_reward = 0
 
             # End timer
             t_end = time.time()
