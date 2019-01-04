@@ -55,9 +55,8 @@ def get_train_args(description='endtoendai/baselines', default_args=None):
     parser.add_argument('--rmsprop-momentum', action='store', dest='RMSPROP_MOMENTUM',
                         default=0, type=float,
                         help='RMSprop momentum . Defaults to 0.')
-    parser.add_argument('--rmsprop-centered', action='store_true', dest='RMSPROP_CENTERED',
-                        default=True, type=bool,
-                        help='RMSprop is centered . Defaults to True.')
+    parser.add_argument('--rmsprop-not-centered', action='store_true', dest='RMSPROP_NOT_CENTERED', type=bool,
+                        help='RMSprop is not centered. Defaults to False.')
 
     # Hyperparameters for Replay Buffer
     parser.add_argument('--replay-buffer-size', action='store', dest='REPLAY_BUFFER_SIZE',
@@ -85,5 +84,7 @@ def get_train_args(description='endtoendai/baselines', default_args=None):
 
     if args.ENV_ID not in ['Pong']:
         raise ValueError('{} is not a supported environment.'.format(args.ENV_ID))
+
+    args.RMSPROP_CENTERED = not args.RMSPROP_NOT_CENTERED
 
     return args
