@@ -138,7 +138,7 @@ class DQN2015Agent:
             # TODO Copy to NaiveDQN, DQN2013
             if nb_episodes_until_eval <= 0:
                 eval_episode_reward = self.eval(nb_episodes=1)[0]
-                print('Evaluation Episode Reward: {}'.format(eval_episode_reward))
+                print('Evaluation Episode Reward: {}'.format(eval_episode_reward.item()))
                 wandb.log({
                     'Evaluation Episode Reward': eval_episode_reward,
                 }, step=frame_idx)
