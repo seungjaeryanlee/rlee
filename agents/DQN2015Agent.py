@@ -129,6 +129,15 @@ class DQN2015Agent:
                 'FPS': fps,
             }, step=frame_idx)
 
+            # Evaluate agent periodically
+            # TODO Implement self.eval()
+            # TODO Copy to NaiveDQN, DQN2013
+            if frame_idx % self.EVAL_FREQ == 0:
+                eval_episode_reward = self.eval(nb_episodes=1)[0]
+                wandb.log({
+                    'Evaluation Episode Reward': eval_episode_reward,
+                }, step=frame_idx)
+
     def _compute_loss(self, batch):
         """
         Compute batch MSE loss between 1-step target Q and prediction Q.
