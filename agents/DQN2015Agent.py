@@ -11,7 +11,8 @@ class DQN2015Agent:
                  DISCOUNT,
                  BATCH_SIZE,
                  MIN_REPLAY_BUFFER_SIZE,
-                 TARGET_UPDATE_FREQ):
+                 TARGET_UPDATE_FREQ,
+                 EVAL_FREQ):
         """
         A Deep Q-Network (DQN) agent that can be trained with environments that
         have feature vectors as states and discrete values as actions. Uses
@@ -30,6 +31,7 @@ class DQN2015Agent:
         self.BATCH_SIZE = BATCH_SIZE
         self.MIN_REPLAY_BUFFER_SIZE = MIN_REPLAY_BUFFER_SIZE
         self.TARGET_UPDATE_FREQ = TARGET_UPDATE_FREQ
+        self.EVAL_FREQ = EVAL_FREQ
 
     def act(self, state, epsilon):
         """

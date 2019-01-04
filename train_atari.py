@@ -82,7 +82,8 @@ def main():
                              ARGS.DISCOUNT,
                              ARGS.BATCH_SIZE,
                              ARGS.MIN_REPLAY_BUFFER_SIZE,
-                             ARGS.TARGET_UPDATE_FREQ)
+                             ARGS.TARGET_UPDATE_FREQ,
+                             ARGS.EVAL_FREQ)
 
     # Train agent
     agent.train(ARGS.NB_STEPS)
