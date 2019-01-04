@@ -36,6 +36,9 @@ def get_train_args(description='endtoendai/baselines', default_args=None):
     parser.add_argument('--discount', action='store', dest='DISCOUNT',
                         default=0.99, type=float,
                         help='Discount factor for DQN.')
+    parser.add_argument('--target-update-freq', action='store', dest='TARGET_UPDATE_FREQ',
+                        default=10000, type=int,
+                        help='Target network update frequency for DQN.')
 
     # Hyperparameters for RMSprop
     # https://twitter.com/FlorinGogianu/status/1080139414695759872
