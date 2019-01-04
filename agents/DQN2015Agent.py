@@ -210,13 +210,13 @@ class DQN2015Agent:
         eval_episode_rewards = []
 
         for _ in range(nb_episodes):
-            state = env.reset()
+            state = self.env.reset()
             done = False
             eval_episode_reward = 0
 
             while not done:
                 action = self.act(state, epsilon=0)
-                state, reward, done, info = env.step(action)
+                state, reward, done, info = self.env.step(action)
                 eval_episode_reward += reward
 
             eval_episode_rewards.append(eval_episode_reward)
