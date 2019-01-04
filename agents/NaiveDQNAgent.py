@@ -6,7 +6,8 @@ import wandb
 
 
 class NaiveDQNAgent:
-    def __init__(self, env, dqn, optimizer, device, DISCOUNT, EPSILON):
+    def __init__(self, env, dqn, optimizer, epsilon_func, device,
+                 DISCOUNT, EPSILON):
         """
         A Deep Q-Network (DQN) agent that can be trained with environments that
         have feature vectors as states and discrete values as actions.
@@ -14,6 +15,7 @@ class NaiveDQNAgent:
         self.env = env
         self.dqn = dqn
         self.optimizer = optimizer
+        self.epsilon_func = epsilon_func
         self.device = device
 
         self.DISCOUNT = DISCOUNT
@@ -64,7 +66,8 @@ class NaiveDQNAgent:
             t_start = time.time()
 
             # Interact and save to replay buffer
-            action = self.act(state, self.EPSILON)
+            epsilon = self.epsilon_func(frame_idx)
+            action = self.act(state, epsilon)
             next_state, reward, done, _ = self.env.step(action)
 
             # Train agent
