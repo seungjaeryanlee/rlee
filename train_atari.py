@@ -6,7 +6,7 @@ import torch
 import torch.optim as optim
 import wandb
 
-from agents import NaiveDQNAgent, DQN2013Agent
+from agents import NaiveDQNAgent, DQN2013Agent, DQN2015Agent
 from commons import get_linear_decay, get_train_args
 from networks import DQN
 from replays import UniformReplayBuffer
