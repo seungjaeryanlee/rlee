@@ -39,6 +39,8 @@ def get_train_args(description='endtoendai/baselines', default_args=None):
     parser.add_argument('--target-update-freq', action='store', dest='TARGET_UPDATE_FREQ',
                         default=10000, type=int,
                         help='Target network update frequency for DQN.')
+    parser.add_argument('--no-huber-loss', action='store_true', dest='NO_HUBER_LOSS',
+                        help='Disable Huber loss (Smooth L1 loss).')
 
     # Hyperparameters for RMSprop
     # https://twitter.com/FlorinGogianu/status/1080139414695759872
@@ -88,6 +90,7 @@ def get_train_args(description='endtoendai/baselines', default_args=None):
     if args.ENV_ID not in ['Pong']:
         raise ValueError('{} is not a supported environment.'.format(args.ENV_ID))
 
+    args.USE_HUBER_LOSS = not args.NO_HUBER_LOSS
     args.RMSPROP_CENTERED = not args.RMSPROP_NOT_CENTERED
 
     return args

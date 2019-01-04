@@ -6,7 +6,7 @@ import wandb
 
 
 class NaiveDQNAgent:
-    def __init__(self, env, dqn, optimizer, epsilon_func, device,
+    def __init__(self, env, dqn, optimizer, criterion, epsilon_func, device,
                  DISCOUNT):
         """
         A Deep Q-Network (DQN) agent that can be trained with environments that
@@ -154,6 +154,6 @@ class NaiveDQNAgent:
         assert expected_q_value.shape == q_value.shape
 
         # Compute MSE Loss
-        loss = (q_value - expected_q_value.detach()).pow(2).mean()
+        loss = self.criterion(q_value, expected_q_value.detach())
 
         return loss

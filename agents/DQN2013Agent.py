@@ -6,7 +6,7 @@ import wandb
 
 
 class DQN2013Agent:
-    def __init__(self, env, dqn, optimizer, replay_buffer, epsilon_func, device,
+    def __init__(self, env, dqn, optimizer, criterion, replay_buffer, epsilon_func, device,
                  DISCOUNT,
                  BATCH_SIZE,
                  MIN_REPLAY_BUFFER_SIZE):
@@ -18,6 +18,7 @@ class DQN2013Agent:
         self.env = env
         self.dqn = dqn
         self.optimizer = optimizer
+        self.criterion = criterion
         self.replay_buffer = replay_buffer
         self.epsilon_func = epsilon_func
         self.device = device
@@ -165,7 +166,7 @@ class DQN2013Agent:
 
         assert expected_q_value.shape == q_value.shape
 
-        # Compute MSE Loss
-        loss = (q_value - expected_q_value.detach()).pow(2).mean()
+        # Compute Loss
+        loss = self.criterion(q_value, expected_q_value.detach())
 
         return loss
