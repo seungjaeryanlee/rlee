@@ -41,6 +41,9 @@ def get_train_args(description='endtoendai/baselines', default_args=None):
                         help='Target network update frequency for DQN.')
     parser.add_argument('--no-huber-loss', action='store_true', dest='NO_HUBER_LOSS',
                         help='Disable Huber loss (Smooth L1 loss).')
+    parser.add_argument('--eval-freq', action='store', dest='EVAL_FREQ',
+                        default=10000, type=int,
+                        help='Frequency for evaluating agent. Defaults to 10000.')
 
     # Hyperparameters for RMSprop
     # https://twitter.com/FlorinGogianu/status/1080139414695759872
