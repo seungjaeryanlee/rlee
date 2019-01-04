@@ -2,7 +2,8 @@ language: python
 python:
   - "3.6"
 install:
-  - pip install flake8 pytest torch -q
+  - pip install -r requirements.txt -q
+  - pip install flake8 pytest
 script:
   - flake8
   - pytest
