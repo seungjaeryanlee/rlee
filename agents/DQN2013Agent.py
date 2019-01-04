@@ -165,6 +165,6 @@ class DQN2013Agent:
         assert expected_q_value.shape == q_value.shape
 
         # Compute MSE Loss
-        loss  = (q_value - expected_q_value.detach()).pow(2).mean()
+        loss = (q_value - expected_q_value.detach()).pow(2).mean()
 
         return loss
