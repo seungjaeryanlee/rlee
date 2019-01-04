@@ -26,8 +26,8 @@ def get_train_args(description='endtoendai/baselines', default_args=None):
                         default='Pong', type=str,
                         help='Environment to train the agent in. Defaults to Pong.')
     parser.add_argument('--agent', action='store', dest='AGENT',
-                        default='dqn2013', type=str,
-                        help='Environment to train the agent in. Defaults to dqn2013.')
+                        default='dqn2015', type=str,
+                        help='Environment to train the agent in. Defaults to dqn2015.')
 
     # Hyperparameters for DQN
     parser.add_argument('--nb-steps', action='store', dest='NB_STEPS',
@@ -36,6 +36,9 @@ def get_train_args(description='endtoendai/baselines', default_args=None):
     parser.add_argument('--discount', action='store', dest='DISCOUNT',
                         default=0.99, type=float,
                         help='Discount factor for DQN.')
+    parser.add_argument('--target-update-freq', action='store', dest='TARGET_UPDATE_FREQ',
+                        default=10000, type=int,
+                        help='Target network update frequency for DQN.')
 
     # Hyperparameters for RMSprop
     # https://twitter.com/FlorinGogianu/status/1080139414695759872
