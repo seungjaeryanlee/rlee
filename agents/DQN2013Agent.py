@@ -114,6 +114,7 @@ class DQN2013Agent:
             fps = 1 / (t_end - t_start)
 
             wandb.log({
+                'Epsilon': epsilon,
                 'Reward': reward,
                 'Time per frame': t_delta,
                 'FPS': fps,

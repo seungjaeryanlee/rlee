@@ -102,6 +102,7 @@ class NaiveDQNAgent:
             fps = 1 / (t_end - t_start)
 
             wandb.log({
+                'Epsilon': epsilon,
                 'Reward': reward,
                 'Loss': loss,
                 'Time per frame': t_delta,
