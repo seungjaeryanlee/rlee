@@ -81,14 +81,17 @@ class DQN2013Agent:
             episode_length += 1
 
             if done:
+                state = self.env.reset()
+                init_state_value_estimate = self.dqn(state.to(self.device)).max(1)[0].cpu().item()
+
                 print('Frame {:5d}/{:5d}\tReturn {:3.2f}\tLoss {:2.4f}'.format(
                     frame_idx + 1, nb_frames, episode_reward, loss.item()))
                 wandb.log({
                     'Episode Reward': episode_reward,
                     'Episode Length': episode_length,
+                    'Value Estimate of Initial State': init_state_value_estimate,
                 }, step=frame_idx)
 
-                state = self.env.reset()
                 episode_reward = 0
                 episode_length = 0
 
