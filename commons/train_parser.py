@@ -39,9 +39,6 @@ def get_train_args(description='endtoendai/baselines', default_args=None):
     parser.add_argument('--discount', action='store', dest='DISCOUNT',
                         default=0.99, type=float,
                         help='Discount factor for DQN.')
-    parser.add_argument('--epsilon', action='store', dest='EPSILON',
-                        default=0.1, type=float,
-                        help='Epsilon for epsilon-greedy exploration DQN.')
 
     # Hyperparameters for Replay Buffer
     parser.add_argument('--replay-buffer-size', action='store', dest='REPLAY_BUFFER_SIZE',
@@ -53,6 +50,17 @@ def get_train_args(description='endtoendai/baselines', default_args=None):
     parser.add_argument('--min-replay-buffer-size', action='store', dest='MIN_REPLAY_BUFFER_SIZE',
                         default=10000, type=int,
                         help='Minimum replay buffer size before sampling. Defaults to 32.')
+
+    # Hyperparameters for epsilon decay
+    parser.add_argument('--epsilon-decay-start', action='store', dest='EPSILON_DECAY_START',
+                        default=1, type=float,
+                        help='Starting epsilon value. Defaults to 1.')
+    parser.add_argument('--epsilon-decay-final', action='store', dest='EPSILON_DECAY_FINAL',
+                        default=0.1, type=float,
+                        help='Minimum epsilon value. Defaults to 0.1.')
+    parser.add_argument('--epsilon-decay-duration', action='store', dest='EPSILON_DECAY_DURATION',
+                        default=1000000, type=int,
+                        help='Number of frames to decay epsilon for. Defaults to 1000000.')
 
     args = parser.parse_args()
 

@@ -6,9 +6,8 @@ import wandb
 
 
 class DQN2013Agent:
-    def __init__(self, env, dqn, optimizer, replay_buffer, device,
+    def __init__(self, env, dqn, optimizer, replay_buffer, epsilon_func, device,
                  DISCOUNT,
-                 EPSILON,
                  BATCH_SIZE,
                  MIN_REPLAY_BUFFER_SIZE):
         """
@@ -20,10 +19,10 @@ class DQN2013Agent:
         self.dqn = dqn
         self.optimizer = optimizer
         self.replay_buffer = replay_buffer
+        self.epsilon_func = epsilon_func
         self.device = device
 
         self.DISCOUNT = DISCOUNT
-        self.EPSILON = EPSILON
         self.BATCH_SIZE = BATCH_SIZE
         self.MIN_REPLAY_BUFFER_SIZE = MIN_REPLAY_BUFFER_SIZE
 
@@ -72,7 +71,8 @@ class DQN2013Agent:
             t_start = time.time()
 
             # Interact and save to replay buffer
-            action = self.act(state, self.EPSILON)
+            epsilon = self.epsilon_func(frame_idx)
+            action = self.act(state, epsilon)
             next_state, reward, done, _ = self.env.step(action)
             self.replay_buffer.push(state, action, reward, next_state, done)
 
@@ -114,6 +114,7 @@ class DQN2013Agent:
             fps = 1 / (t_end - t_start)
 
             wandb.log({
+                'Epsilon': epsilon,
                 'Reward': reward,
                 'Time per frame': t_delta,
                 'FPS': fps,
