@@ -130,7 +130,6 @@ class DQN2015Agent:
             }, step=frame_idx)
 
             # Evaluate agent periodically
-            # TODO Implement self.eval()
             # TODO Copy to NaiveDQN, DQN2013
             if frame_idx % self.EVAL_FREQ == 0:
                 eval_episode_reward = self.eval(nb_episodes=1)[0]
@@ -193,3 +192,33 @@ class DQN2015Agent:
         Update weights of Target DQN with weights of current DQN.
         """
         self.target_dqn.load_state_dict(self.current_dqn.state_dict())
+
+    def eval(self, nb_episodes=1):
+        """
+        Evaluate agent with greedy action selection.
+
+        Parameters
+        ----------
+        nb_epsiodes : int
+            Number of episodes to evaluate the agent for. Defaults to 1.
+
+        Returns
+        -------
+        eval_episode_rewards : list of float
+            List of cumulative rewards for each episode.
+        """
+        eval_episode_rewards = []
+
+        for _ in range(nb_episodes):
+            state = env.reset()
+            done = False
+            eval_episode_reward = 0
+
+            while not done:
+                action = self.act(state, epsilon=0)
+                state, reward, done, info = env.step(action)
+                eval_episode_reward += reward
+
+            eval_episode_rewards.append(eval_episode_reward)
+
+        return eval_episode_rewards
