@@ -63,6 +63,7 @@ class DQN2013Agent:
             Number of frames to train the agent.
         """
         episode_reward = 0
+        episode_length = 0
         loss = torch.FloatTensor([0])
         state = self.env.reset()
 
@@ -77,16 +78,19 @@ class DQN2013Agent:
 
             state = next_state
             episode_reward += reward.item()
+            episode_length += 1
 
             if done:
                 print('Frame {:5d}/{:5d}\tReturn {:3.2f}\tLoss {:2.4f}'.format(
                     frame_idx + 1, nb_frames, episode_reward, loss.item()))
                 wandb.log({
                     'Episode Reward': episode_reward,
+                    'Episode Length': episode_length,
                 }, step=frame_idx)
 
                 state = self.env.reset()
                 episode_reward = 0
+                episode_length = 0
 
             # Train DQN if the replay buffer is populated enough
             if len(self.replay_buffer) > self.MIN_REPLAY_BUFFER_SIZE:
