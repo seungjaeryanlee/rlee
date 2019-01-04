@@ -6,7 +6,7 @@ import wandb
 
 
 class DQN2013Agent:
-    def __init__(self, env, dqn, optimizer, replay_buffer,
+    def __init__(self, env, dqn, optimizer, replay_buffer, device,
                  DISCOUNT,
                  EPSILON,
                  BATCH_SIZE,
@@ -20,6 +20,7 @@ class DQN2013Agent:
         self.dqn = dqn
         self.optimizer = optimizer
         self.replay_buffer = replay_buffer
+        self.device = device
 
         self.DISCOUNT = DISCOUNT
         self.EPSILON = EPSILON
@@ -45,7 +46,7 @@ class DQN2013Agent:
         """
         if random.random() > epsilon:
             with torch.no_grad():
-                q_values = self.dqn(state)
+                q_values = self.dqn(state.to(self.device)).cpu()
             action = q_values.max(1)[1].item()
         else:
             action = self.env.action_space.sample()
@@ -127,13 +128,18 @@ class DQN2013Agent:
         """
         state_batch, action_batch, reward_batch, \
             next_state_batch, done_batch = self.replay_buffer.sample(self.BATCH_SIZE)
+        state_batch = state_batch.to(self.device)
+        action_batch = action_batch.to(self.device)
+        reward_batch = reward_batch.to(self.device)
+        next_state_batch = next_state_batch.to(self.device)
+        done_batch = done_batch.to(self.device)
 
         # Predicted Q: Q_current(s, a)
         # q_values : torch.Size([BATCH_SIZE, self.env.action_space.n])
         # action   : torch.Size([BATCH_SIZE])
         # q_value  : torch.Size([BATCH_SIZE])
         q_values = self.dqn(state_batch)
-        q_value = q_values.gather(1, action_batch.unsqueeze(1)).squeeze()
+        q_value = q_values.gather(1, action_batch.unsqueeze(1)).squeeze().cpu()
 
         # Target Q: r + gamma * max_{a'} Q_target(s', a')
         # next_q_values    : torch.Size([BATCH_SIZE, self.env.action_space.n])
@@ -143,7 +149,7 @@ class DQN2013Agent:
             # Q_target(s', a')
             next_q_values = self.dqn(next_state_batch)
             next_q_value = next_q_values.max(dim=1)[0].squeeze()
-            expected_q_value = reward_batch + self.DISCOUNT * next_q_value * (1 - done_batch)
+            expected_q_value = (reward_batch + self.DISCOUNT * next_q_value * (1 - done_batch)).cpu()
 
         assert expected_q_value.shape == q_value.shape
 
