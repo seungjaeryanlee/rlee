@@ -50,10 +50,10 @@ def get_train_args(description='endtoendai/baselines', default_args=None):
                         default=0.01, type=float,
                         help='RMSprop constant term in denominator to improve numerical stability . Defaults to 0.01')
     parser.add_argument('--rmsprop-weight-decay', action='store', dest='RMSPROP_WEIGHT_DECAY',
-                        default=0.01, type=float,
+                        default=0, type=float,
                         help='RMSprop weight decay . Defaults to 0.')
     parser.add_argument('--rmsprop-momentum', action='store', dest='RMSPROP_MOMENTUM',
-                        default=0.01, type=float,
+                        default=0, type=float,
                         help='RMSprop momentum . Defaults to 0.')
     parser.add_argument('--rmsprop-centered', action='store_true', dest='RMSPROP_CENTERED',
                         default=True, type=bool,
