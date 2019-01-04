@@ -70,6 +70,7 @@ class DQN2015Agent:
         episode_length = 0
         loss = torch.FloatTensor([0])
         state = self.env.reset()
+        nb_episodes_until_eval = self.EVAL_FREQ
 
         for frame_idx in range(1, nb_frames + 1):
             # Start timer
@@ -99,6 +100,7 @@ class DQN2015Agent:
 
                 episode_reward = 0
                 episode_length = 0
+                nb_episodes_until_eval -= 1
 
             # Train DQN if the replay buffer is populated enough
             if len(self.replay_buffer) > self.MIN_REPLAY_BUFFER_SIZE:
@@ -130,12 +132,14 @@ class DQN2015Agent:
             }, step=frame_idx)
 
             # Evaluate agent periodically
+            # Determined by episodes since environment needs to be reset
             # TODO Copy to NaiveDQN, DQN2013
-            if frame_idx % self.EVAL_FREQ == 0:
+            if nb_episodes_until_eval <= 0:
                 eval_episode_reward = self.eval(nb_episodes=1)[0]
                 wandb.log({
                     'Evaluation Episode Reward': eval_episode_reward,
                 }, step=frame_idx)
+                nb_episodes_until_eval = self.EVAL_FREQ
 
     def _compute_loss(self, batch):
         """
