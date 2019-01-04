@@ -55,7 +55,7 @@ def get_train_args(description='endtoendai/baselines', default_args=None):
     parser.add_argument('--rmsprop-momentum', action='store', dest='RMSPROP_MOMENTUM',
                         default=0, type=float,
                         help='RMSprop momentum . Defaults to 0.')
-    parser.add_argument('--rmsprop-not-centered', action='store_true', dest='RMSPROP_NOT_CENTERED', type=bool,
+    parser.add_argument('--rmsprop-not-centered', action='store_true', dest='RMSPROP_NOT_CENTERED',
                         help='RMSprop is not centered. Defaults to False.')
 
     # Hyperparameters for Replay Buffer
