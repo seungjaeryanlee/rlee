@@ -55,6 +55,7 @@ class NaiveDQNAgent:
             Number of frames to train the agent.
         """
         episode_reward = 0
+        episode_length = 0
         loss = torch.FloatTensor([0])
         state = self.env.reset()
 
@@ -75,16 +76,19 @@ class NaiveDQNAgent:
 
             state = next_state
             episode_reward += reward.item()
+            episode_length += 1
 
             if done:
                 print('Frame {:5d}/{:5d}\tReturn {:3.2f}\tLoss {:2.4f}'.format(
                     frame_idx + 1, nb_frames, episode_reward, loss.item()))
                 wandb.log({
                     'Episode Reward': episode_reward,
+                    'Episode Length': episode_length,
                 }, step=frame_idx)
 
                 state = self.env.reset()
                 episode_reward = 0
+                episode_length = 0
 
             # End timer
             t_end = time.time()
