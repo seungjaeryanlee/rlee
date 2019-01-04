@@ -8,7 +8,6 @@ import wandb
 class DQN2013Agent:
     def __init__(self, env, dqn, optimizer, replay_buffer, epsilon_func, device,
                  DISCOUNT,
-                 EPSILON,
                  BATCH_SIZE,
                  MIN_REPLAY_BUFFER_SIZE):
         """
@@ -24,7 +23,6 @@ class DQN2013Agent:
         self.device = device
 
         self.DISCOUNT = DISCOUNT
-        self.EPSILON = EPSILON
         self.BATCH_SIZE = BATCH_SIZE
         self.MIN_REPLAY_BUFFER_SIZE = MIN_REPLAY_BUFFER_SIZE
 
