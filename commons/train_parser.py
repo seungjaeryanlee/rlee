@@ -39,9 +39,6 @@ def get_train_args(description='endtoendai/baselines', default_args=None):
     parser.add_argument('--discount', action='store', dest='DISCOUNT',
                         default=0.99, type=float,
                         help='Discount factor for DQN.')
-    parser.add_argument('--epsilon', action='store', dest='EPSILON',
-                        default=0.1, type=float,
-                        help='Epsilon for epsilon-greedy exploration DQN.')
 
     # Hyperparameters for Replay Buffer
     parser.add_argument('--replay-buffer-size', action='store', dest='REPLAY_BUFFER_SIZE',
