@@ -1,3 +1,5 @@
+"""Miscellaneous functions that are generally useful."""
+
 from .train_parser import get_train_args
 from .decay import get_linear_decay
 
