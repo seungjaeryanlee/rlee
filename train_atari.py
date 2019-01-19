@@ -37,7 +37,7 @@ def main() -> None:
         criterion = nn.MSELoss()
 
     # Setup Agent
-    agent: Any = None
+    agent: Any = None  # noqa: E999
     # Setup NaiveDQNAgent
     if ARGS.AGENT == 'naive':
         dqn = DQN(num_inputs=env.observation_space.shape[0],

@@ -10,7 +10,7 @@ def test_uniform_batch_type() -> None:
     BATCH_SIZE = 1
     replay_buffer = UniformReplayBuffer(BATCH_SIZE)
 
-    for i in range(BATCH_SIZE):
+    for _ in range(BATCH_SIZE):
         state = torch.FloatTensor([[0, 0, 0, 0]])
         action = 0
         reward = torch.FloatTensor([1])
@@ -41,7 +41,7 @@ def test_uniform_batch_shape() -> None:
     STATE_LEN = 4
     replay_buffer = UniformReplayBuffer(BATCH_SIZE)
 
-    for i in range(BATCH_SIZE):
+    for _ in range(BATCH_SIZE):
         state = torch.FloatTensor([[0, 0, 0, 0]])
         action = 0
         reward = torch.FloatTensor([1])

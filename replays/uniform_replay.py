@@ -6,7 +6,7 @@ import torch
 
 class UniformReplayBuffer:
     def __init__(self, capacity: int) -> None:
-        self.buffer: deque = deque(maxlen=capacity)
+        self.buffer: deque = deque(maxlen=capacity)  # noqa: E999
 
     def __len__(self) -> int:
         return len(self.buffer)
