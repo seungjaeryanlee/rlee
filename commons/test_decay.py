@@ -6,7 +6,7 @@ import pytest
 from .decay import get_linear_decay
 
 
-def test_get_linear_decay_start():
+def test_get_linear_decay_start() -> None:
     """
     Test that linear decay function returns startng value with input 1.
     """
@@ -16,7 +16,7 @@ def test_get_linear_decay_start():
     assert pytest.approx(decay_func(1), decay_start)
 
 
-def test_get_linear_decay_final():
+def test_get_linear_decay_final() -> None:
     """
     Test that linear decay function returns final value at the end of duration.
     """
@@ -26,7 +26,7 @@ def test_get_linear_decay_final():
     assert pytest.approx(decay_func(decay_duration), decay_final)
 
 
-def test_get_linear_decay_no_decay():
+def test_get_linear_decay_no_decay() -> None:
     """
     Test that linear decay function does not decay if starting and final values are same.
     """
@@ -36,7 +36,7 @@ def test_get_linear_decay_no_decay():
     assert pytest.approx(decay_func(1), decay_func(decay_duration))
 
 
-def test_get_linear_decay_after_duration():
+def test_get_linear_decay_after_duration() -> None:
     """
     Test that linear decay function does not return value below minimum value.
     """
@@ -46,7 +46,7 @@ def test_get_linear_decay_after_duration():
     assert pytest.approx(decay_func(decay_duration + 1000), decay_final)
 
 
-def test_get_linear_decay_thorough():
+def test_get_linear_decay_thorough() -> None:
     """
     Test all values of linear decay function.
     """
