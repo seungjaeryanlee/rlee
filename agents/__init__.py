@@ -1,3 +1,5 @@
+"""Reinforcement Learning agents."""
+
 from .NaiveDQNAgent import NaiveDQNAgent
 from .DQN2013Agent import DQN2013Agent
 from .DQN2015Agent import DQN2015Agent

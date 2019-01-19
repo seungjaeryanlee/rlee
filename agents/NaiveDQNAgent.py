@@ -1,3 +1,5 @@
+"""Agent that uses DQN without experience replay or target network."""
+
 import random
 import time
 from typing import Any, Callable, Tuple
@@ -7,12 +9,16 @@ import wandb
 
 
 class NaiveDQNAgent:
+    """
+    Agent that uses DQN without experience replay or target network.
+
+    A Deep Q-Network (DQN) agent that can be trained withenvironments
+    that have feature vectors as states and discrete values as actions.
+    Uses neither experience replay nor target network.
+    """
+
     def __init__(self, env: Any, dqn: Any, optimizer: Any, criterion: Any,
                  epsilon_func: Callable[[int], float], device: bool, DISCOUNT: float):
-        """
-        A Deep Q-Network (DQN) agent that can be trained with environments that
-        have feature vectors as states and discrete values as actions.
-        """
         self.env = env
         self.dqn = dqn
         self.optimizer = optimizer
@@ -37,7 +43,8 @@ class NaiveDQNAgent:
         Returns
         -------
         action : int
-            An integer representing a discrete action chosen by the agent.
+            An integer representing a discrete action chosen by the agent
+
         """
         if random.random() > epsilon:
             with torch.no_grad():
@@ -56,6 +63,7 @@ class NaiveDQNAgent:
         ----------
         nb_frames: int
             Number of frames to train the agent.
+
         """
         episode_reward = 0
         episode_length = 0
@@ -128,6 +136,7 @@ class NaiveDQNAgent:
         loss : torch.FloatTensor
             MSE loss of target Q and prediction Q that can be backpropagated.
             Has shape torch.Size([1]).
+
         """
         state_batch, action_batch, reward_batch, next_state_batch, done_batch = batch
         state_batch = state_batch.to(self.device)
