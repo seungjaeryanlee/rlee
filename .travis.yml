@@ -3,7 +3,7 @@ python:
   - "3.6"
 install:
   - pip install -r requirements.txt -q
-  - pip install flake8 flake8-bugbear pytest mypy
+  - pip install flake8 flake8-bugbear flake8-docstrings pytest mypy
 script:
   - flake8
   - mypy .
