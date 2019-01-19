@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
-"""
-train_atari.py
-"""
+"""Train DQN agent on Atari environment."""
 from typing import Any
 
 import torch
@@ -17,6 +15,7 @@ from wrappers import make_env
 
 
 def main() -> None:
+    """Train DQN agent on Atari environment."""
     # Check GPU
     device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 

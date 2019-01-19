@@ -1,3 +1,9 @@
+"""
+Agent equivalent to DQN 2013 paper.
+
+Playing Atari with Deep Reinforcement Learning
+https://arxiv.org/abs/1312.5602
+"""
 import random
 import time
 from typing import Any, Callable, Tuple
@@ -7,14 +13,20 @@ import wandb
 
 
 class DQN2013Agent:
+    """
+    Agent equivalent to DQN 2013 paper.
+
+    A Deep Q-Network (DQN) agent that can be trained with environments that
+    have feature vectors as states and discrete values as actions. Uses
+    experience replay introduced in DQN 2013 paper, but not target network.
+
+    Playing Atari with Deep Reinforcement Learning
+    https://arxiv.org/abs/1312.5602
+    """
+
     def __init__(self, env: Any, dqn: Any, optimizer: Any, criterion: Any,
                  replay_buffer: Any, epsilon_func: Callable[[int], float], device: bool,
                  DISCOUNT: float, BATCH_SIZE: int, MIN_REPLAY_BUFFER_SIZE: int):
-        """
-        A Deep Q-Network (DQN) agent that can be trained with environments that
-        have feature vectors as states and discrete values as actions. Uses
-        experience replay introduced in DQN 2013 paper.
-        """
         self.env = env
         self.dqn = dqn
         self.optimizer = optimizer
@@ -43,6 +55,7 @@ class DQN2013Agent:
         -------
         action : int
             An integer representing a discrete action chosen by the agent.
+
         """
         if random.random() > epsilon:
             with torch.no_grad():
@@ -61,6 +74,7 @@ class DQN2013Agent:
         ----------
         nb_frames: int
             Number of frames to train the agent.
+
         """
         episode_reward = 0
         episode_length = 0
@@ -138,6 +152,7 @@ class DQN2013Agent:
         loss : torch.FloatTensor
             MSE loss of target Q and prediction Q that can be backpropagated.
             Has shape torch.Size([1]).
+
         """
         state_batch, action_batch, reward_batch, \
             next_state_batch, done_batch = self.replay_buffer.sample(self.BATCH_SIZE)

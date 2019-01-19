@@ -1,3 +1,9 @@
+"""
+Agent equivalent to DQN 2015 paper.
+
+Human-level control through deep reinforcement learning
+https://storage.googleapis.com/deepmind-media/dqn/DQNNaturePaper.pdf
+"""
 import copy
 import random
 import time
@@ -8,15 +14,21 @@ import wandb
 
 
 class DQN2015Agent:
+    """
+    Agent equivalent to DQN 2015 paper.
+
+    A Deep Q-Network (DQN) agent that can be trained with environments that
+    have feature vectors as states and discrete values as actions. Uses
+    experience replay and target network.
+
+    Human-level control through deep reinforcement learning
+    https://storage.googleapis.com/deepmind-media/dqn/DQNNaturePaper.pdf
+    """
+
     def __init__(self, env: Any, dqn: Any, optimizer: Any, criterion: Any,
                  replay_buffer: Any, epsilon_func: Callable[[int], float],
                  device: bool, DISCOUNT: float, BATCH_SIZE: int,
                  MIN_REPLAY_BUFFER_SIZE: int, TARGET_UPDATE_FREQ: int):
-        """
-        A Deep Q-Network (DQN) agent that can be trained with environments that
-        have feature vectors as states and discrete values as actions. Uses
-        experience replay and target network.
-        """
         self.env = env
         self.current_dqn = dqn
         self.target_dqn = copy.deepcopy(dqn)
@@ -47,6 +59,7 @@ class DQN2015Agent:
         -------
         action : int
             An integer representing a discrete action chosen by the agent.
+
         """
         if random.random() > epsilon:
             with torch.no_grad():
@@ -65,6 +78,7 @@ class DQN2015Agent:
         ----------
         nb_frames: int
             Number of frames to train the agent.
+
         """
         episode_reward = 0
         episode_length = 0
@@ -146,6 +160,7 @@ class DQN2015Agent:
         loss : torch.FloatTensor
             MSE loss of target Q and prediction Q that can be backpropagated.
             Has shape torch.Size([1]).
+
         """
         state_batch, action_batch, reward_batch, \
             next_state_batch, done_batch = self.replay_buffer.sample(self.BATCH_SIZE)
@@ -180,7 +195,5 @@ class DQN2015Agent:
         return loss
 
     def _update_target(self) -> None:
-        """
-        Update weights of Target DQN with weights of current DQN.
-        """
+        """Update weights of Target DQN with weights of current DQN."""
         self.target_dqn.load_state_dict(self.current_dqn.state_dict())

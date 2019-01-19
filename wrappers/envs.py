@@ -1,6 +1,4 @@
-"""
-envs.py
-"""
+"""OpenAI Gym Environment wrappers."""
 from typing import Any
 
 import gym
@@ -12,8 +10,9 @@ from .torch_wrappers import wrap_pytorch
 
 def make_env(env_id: str) -> Any:
     """
-    Return an OpenAI Gym environment wrapped with appropriate wrappers. Throws
-    error if env_id is not recognized.
+    Return an OpenAI Gym environment wrapped with appropriately.
+
+    Throws error if unrecognized env_id is given.
 
     Parameters
     ----------
@@ -24,6 +23,7 @@ def make_env(env_id: str) -> Any:
     -------
     env
         Wrapped OpenAI Gym environment.
+
     """
     if env_id in ['Acrobot']:
         # Create environment

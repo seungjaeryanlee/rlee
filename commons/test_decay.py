@@ -1,15 +1,11 @@
-"""
-test_decay.py
-"""
+"""Test get_linear_decay function in decay.py."""
 import pytest
 
 from .decay import get_linear_decay
 
 
 def test_get_linear_decay_start() -> None:
-    """
-    Test that linear decay function returns startng value with input 1.
-    """
+    """Test that linear decay function returns startng value with input 1."""
     decay_start, decay_final, decay_duration = (1, 0.1, 1000000)
     decay_func = get_linear_decay(decay_start, decay_final, decay_duration)
 
@@ -17,9 +13,7 @@ def test_get_linear_decay_start() -> None:
 
 
 def test_get_linear_decay_final() -> None:
-    """
-    Test that linear decay function returns final value at the end of duration.
-    """
+    """Test that linear decay function returns final value at the end of duration."""
     decay_start, decay_final, decay_duration = (1, 0.1, 1000000)
     decay_func = get_linear_decay(decay_start, decay_final, decay_duration)
 
@@ -27,9 +21,7 @@ def test_get_linear_decay_final() -> None:
 
 
 def test_get_linear_decay_no_decay() -> None:
-    """
-    Test that linear decay function does not decay if starting and final values are same.
-    """
+    """Test that linear decay function does not decay if starting and final values are same."""
     decay_start, decay_final, decay_duration = (0.5, 0.5, 1000000)
     decay_func = get_linear_decay(decay_start, decay_final, decay_duration)
 
@@ -37,9 +29,7 @@ def test_get_linear_decay_no_decay() -> None:
 
 
 def test_get_linear_decay_after_duration() -> None:
-    """
-    Test that linear decay function does not return value below minimum value.
-    """
+    """Test that linear decay function does not return value below minimum value."""
     decay_start, decay_final, decay_duration = (1, 0.3, 1000)
     decay_func = get_linear_decay(decay_start, decay_final, decay_duration)
 
@@ -47,9 +37,7 @@ def test_get_linear_decay_after_duration() -> None:
 
 
 def test_get_linear_decay_thorough() -> None:
-    """
-    Test all values of linear decay function.
-    """
+    """Test all values of linear decay function."""
     decay_start, decay_final, decay_duration = (1, 0, 11)
     decay_func = get_linear_decay(decay_start, decay_final, decay_duration)
 

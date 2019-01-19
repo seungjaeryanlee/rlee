@@ -3,4 +3,8 @@ exclude =
     .git,
     __pycache__,
     .ipynb_checkpoints,
+    wrappers/atari_wrappers.py
 max-line-length = 120
+ignore =
+    D105, # Missing docstring in magic method
+    D107  # Missing docstring in __init__

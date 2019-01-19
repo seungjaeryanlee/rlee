@@ -1,6 +1,4 @@
-"""
-argument_parser.py
-"""
+"""Parser for training an agent."""
 from typing import Optional
 import argparse
 
@@ -8,8 +6,7 @@ import argparse
 def get_train_args(description: str = 'endtoendai/baselines',
                    default_args: Optional[dict] = None) -> argparse.Namespace:
     """
-    Parse arguments for training agents and return hyperparameters as a
-    Namespace.
+    Parse arguments for training agents and return hyperparameters as a Namespace.
 
     Parameters
     ----------
@@ -21,8 +18,8 @@ def get_train_args(description: str = 'endtoendai/baselines',
     args
         Namespace containing hyperparameter options specified by user or set
         by default.
-    """
 
+    """
     parser = argparse.ArgumentParser(description)
     parser.add_argument('--env-id', action='store', dest='ENV_ID',
                         default='Pong', type=str,

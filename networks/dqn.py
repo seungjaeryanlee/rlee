@@ -1,16 +1,22 @@
 """
-dqn.py
+Deep Q-Network.
+
+Human-level control through deep reinforcement learning
+https://storage.googleapis.com/deepmind-media/dqn/DQNNaturePaper.pdf
 """
 import torch
 import torch.nn as nn
 
 
 class DQN(nn.Module):
+    """
+    Deep Q-network for Atari environments.
+
+    The DQN architecture specified in DQN2015 paper. Expects 84x84 frame
+    environments.
+    """
+
     def __init__(self, num_inputs: int, num_actions: int) -> None:
-        """
-        The deep Q-network specified in DQN2015 paper. Can be used with
-        84x84 frame environments.
-        """
         super().__init__()
         self.conv_layers = nn.Sequential(
             nn.Conv2d(num_inputs, 32, kernel_size=8, stride=4),
@@ -27,6 +33,7 @@ class DQN(nn.Module):
         )
 
     def forward(self, x: torch.tensor) -> torch.tensor:
+        """Propagate DQN forward."""
         x = self.conv_layers(x)
         x = x.view(x.size(0), -1)
         x = self.fc_layers(x)
