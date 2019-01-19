@@ -1,3 +1,5 @@
+"""Neural networks needed for reinforcement learning agents."""
+
 from .dqn import DQN
 
 
