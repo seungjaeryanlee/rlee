@@ -3,7 +3,7 @@ import torch
 from .uniform_replay import UniformReplayBuffer
 
 
-def test_uniform_batch_type():
+def test_uniform_batch_type() -> None:
     """
     Test if `replay_buffer.sample()` returns five `torch.Tensor` objects.
     """
@@ -32,7 +32,7 @@ def test_uniform_batch_type():
     assert type(done_b) == torch.Tensor
 
 
-def test_uniform_batch_shape():
+def test_uniform_batch_shape() -> None:
     """
     Test if `replay_buffer.sample()` returns five `torch.Tensor` objects with
     correct shapes.

@@ -4,7 +4,7 @@ from .DQN2015Agent import DQN2015Agent
 
 
 __all__ = [
-    NaiveDQNAgent,
-    DQN2013Agent,
-    DQN2015Agent,
+    'NaiveDQNAgent',
+    'DQN2013Agent',
+    'DQN2015Agent',
 ]

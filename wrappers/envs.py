@@ -1,6 +1,8 @@
 """
 envs.py
 """
+from typing import Any
+
 import gym
 
 from .atari_wrappers import make_atari, wrap_deepmind, WarpFrame, FrameStack
@@ -8,7 +10,7 @@ from .raw_wrappers import AcrobotWrapper
 from .torch_wrappers import wrap_pytorch
 
 
-def make_env(env_id):
+def make_env(env_id: str) -> Any:
     """
     Return an OpenAI Gym environment wrapped with appropriate wrappers. Throws
     error if env_id is not recognized.

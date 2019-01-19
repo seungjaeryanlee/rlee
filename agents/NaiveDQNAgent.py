@@ -1,13 +1,14 @@
 import random
 import time
+from typing import Any, Callable, Tuple
 
 import torch
 import wandb
 
 
 class NaiveDQNAgent:
-    def __init__(self, env, dqn, optimizer, criterion, epsilon_func, device,
-                 DISCOUNT):
+    def __init__(self, env: Any, dqn: Any, optimizer: Any, criterion: Any,
+                 epsilon_func: Callable[[int], float], device: bool, DISCOUNT: float):
         """
         A Deep Q-Network (DQN) agent that can be trained with environments that
         have feature vectors as states and discrete values as actions.
@@ -15,12 +16,13 @@ class NaiveDQNAgent:
         self.env = env
         self.dqn = dqn
         self.optimizer = optimizer
+        self.criterion = criterion
         self.epsilon_func = epsilon_func
         self.device = device
 
         self.DISCOUNT = DISCOUNT
 
-    def act(self, state, epsilon):
+    def act(self, state: torch.Tensor, epsilon: float) -> int:
         """
         Return an action sampled from an epsilon-greedy policy.
 
@@ -46,7 +48,7 @@ class NaiveDQNAgent:
 
         return action
 
-    def train(self, nb_frames):
+    def train(self, nb_frames: int) -> None:
         """
         Train the agent by interacting with the environment.
 
@@ -109,7 +111,7 @@ class NaiveDQNAgent:
                 'FPS': fps,
             }, step=frame_idx)
 
-    def _compute_loss(self, batch):
+    def _compute_loss(self, batch: Tuple) -> torch.Tensor:
         """
         Compute batch MSE loss between 1-step target Q and prediction Q.
 

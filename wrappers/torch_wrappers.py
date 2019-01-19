@@ -1,3 +1,5 @@
+from typing import Any, Tuple
+
 import gym
 from gym import spaces
 import numpy as np
@@ -9,20 +11,20 @@ class TorchTensorWrapper(gym.Wrapper):
     OpenAI Environment Wrapper that changes output types of `env.reset()` and
     `env.step()` to `torch.Tensor`.
     """
-    def __init__(self, env):
+    def __init__(self, env: Any) -> None:
         gym.Wrapper.__init__(self, env)
 
-    def reset(self):
+    def reset(self) -> torch.Tensor:
         ob = self.env.reset()
         ob = torch.FloatTensor([ob])
         return ob
 
-    def step(self, action):
+    def step(self, action: int) -> Tuple[torch.Tensor, torch.Tensor, torch.Tensor, Any]:
         ob, reward, done, info = self.env.step(action)
         ob = torch.FloatTensor([ob])
         reward = torch.FloatTensor([reward])
         done = torch.FloatTensor([done])
-        return ob, reward, done, info
+        return (ob, reward, done, info)
 
 
 class TorchPermuteWrapper(gym.ObservationWrapper):
@@ -30,7 +32,7 @@ class TorchPermuteWrapper(gym.ObservationWrapper):
     OpenAI Atari Environment Wrapper that permutes environment
     observation to PyTorch style: NCHW.
     """
-    def __init__(self, env):
+    def __init__(self, env: Any) -> None:
         gym.ObservationWrapper.__init__(self, env)
         shp = env.observation_space.shape
         self.observation_space = spaces.Box(
@@ -39,11 +41,11 @@ class TorchPermuteWrapper(gym.ObservationWrapper):
             shape=(shp[2], shp[0], shp[1]),
             dtype=np.float32)
 
-    def observation(self, observation):
+    def observation(self, observation: torch.Tensor) -> torch.Tensor:
         return observation.permute(0, 3, 1, 2)
 
 
-def wrap_pytorch(env):
+def wrap_pytorch(env: Any) -> Any:
     """
     Wrap environment to be compliant to PyTorch agents.
     """

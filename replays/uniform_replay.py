@@ -5,13 +5,14 @@ import torch
 
 
 class UniformReplayBuffer:
-    def __init__(self, capacity):
-        self.buffer = deque(maxlen=capacity)
+    def __init__(self, capacity: int) -> None:
+        self.buffer: deque = deque(maxlen=capacity)
 
-    def __len__(self):
+    def __len__(self) -> int:
         return len(self.buffer)
 
-    def push(self, state, action, reward, next_state, done):
+    def push(self, state: torch.Tensor, action: int, reward: torch.Tensor,
+             next_state: torch.Tensor, done: torch.Tensor) -> None:
         """
         Add a new interaction / experience to the replay buffer.
 
@@ -32,7 +33,7 @@ class UniformReplayBuffer:
         self.buffer.append((state, torch.LongTensor(
             [action]), reward, next_state, done))
 
-    def sample(self, batch_size):
+    def sample(self, batch_size: int) -> torch.Tensor:
         """
         Sample a batch from the replay buffer.
         This function does not check if the buffer is bigger than the

@@ -1,9 +1,10 @@
 """
 decay.py
 """
+from typing import Callable
 
 
-def get_linear_decay(decay_start, decay_final, decay_duration):
+def get_linear_decay(decay_start: float, decay_final: float, decay_duration: int) -> Callable[[int], float]:
     """
     Return a linear decay function. Assumes index start at 1.
 
@@ -25,7 +26,7 @@ def get_linear_decay(decay_start, decay_final, decay_duration):
     assert 0 <= decay_start <= 1
     assert 0 <= decay_final <= 1
 
-    def decay_func(idx):
+    def decay_func(idx: int) -> float:
         """
         A linear decay function.
         """
