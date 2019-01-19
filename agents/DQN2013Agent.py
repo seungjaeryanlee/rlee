@@ -1,15 +1,15 @@
 import random
 import time
+from typing import Any, Callable, Tuple
 
 import torch
 import wandb
 
 
 class DQN2013Agent:
-    def __init__(self, env, dqn, optimizer, criterion, replay_buffer, epsilon_func, device,
-                 DISCOUNT,
-                 BATCH_SIZE,
-                 MIN_REPLAY_BUFFER_SIZE):
+    def __init__(self, env: Any, dqn: Any, optimizer: Any, criterion: Any,
+                replay_buffer: Any, epsilon_func: Callable[[int], float], device: bool,
+                DISCOUNT: float, BATCH_SIZE: int, MIN_REPLAY_BUFFER_SIZE: int):
         """
         A Deep Q-Network (DQN) agent that can be trained with environments that
         have feature vectors as states and discrete values as actions. Uses
@@ -27,7 +27,7 @@ class DQN2013Agent:
         self.BATCH_SIZE = BATCH_SIZE
         self.MIN_REPLAY_BUFFER_SIZE = MIN_REPLAY_BUFFER_SIZE
 
-    def act(self, state, epsilon):
+    def act(self, state: torch.Tensor, epsilon: float) -> int:
         """
         Return an action sampled from an epsilon-greedy policy.
 
@@ -53,7 +53,7 @@ class DQN2013Agent:
 
         return action
 
-    def train(self, nb_frames):
+    def train(self, nb_frames: int) -> None:
         """
         Train the agent by interacting with the environment.
 
@@ -121,7 +121,7 @@ class DQN2013Agent:
                 'FPS': fps,
             }, step=frame_idx)
 
-    def _compute_loss(self, batch):
+    def _compute_loss(self, batch: Tuple[torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor]) -> torch.Tensor:
         """
         Compute batch MSE loss between 1-step target Q and prediction Q.
 
