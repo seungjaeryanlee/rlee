@@ -1,11 +1,12 @@
 """
 dqn.py
 """
+import torch
 import torch.nn as nn
 
 
 class DQN(nn.Module):
-    def __init__(self, num_inputs, num_actions):
+    def __init__(self, num_inputs: int, num_actions: int) -> None:
         """
         The deep Q-network specified in DQN2015 paper. Can be used with
         84x84 frame environments.
@@ -25,7 +26,7 @@ class DQN(nn.Module):
             nn.Linear(512, num_actions)
         )
 
-    def forward(self, x):
+    def forward(self, x: torch.tensor) -> torch.tensor:
         x = self.conv_layers(x)
         x = x.view(x.size(0), -1)
         x = self.fc_layers(x)
