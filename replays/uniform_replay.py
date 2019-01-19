@@ -1,3 +1,4 @@
+"""Uniform experience replay used in DQN2013 and DQN2015."""
 from collections import deque
 import random
 
@@ -5,6 +6,8 @@ import torch
 
 
 class UniformReplayBuffer:
+    """Uniform experience replay used in DQN2013 and DQN2015."""
+
     def __init__(self, capacity: int) -> None:
         self.buffer: deque = deque(maxlen=capacity)  # noqa: E999
 
@@ -29,6 +32,7 @@ class UniformReplayBuffer:
             image-type states).
         done : torch.Tensor of torch.float32
             Has shape (1, 1)
+
         """
         self.buffer.append((state, torch.LongTensor(
             [action]), reward, next_state, done))
@@ -50,6 +54,7 @@ class UniformReplayBuffer:
         batch: tuple of torch.Tensor
             A tuple of batches: (state_batch, action_batch, reward_batch,
             next_state_batch, done_batch).
+
         """
         state, action, reward, next_state, done = zip(
             *random.sample(self.buffer, batch_size))
