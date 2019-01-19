@@ -40,6 +40,7 @@ class UniformReplayBuffer:
     def sample(self, batch_size: int) -> torch.Tensor:
         """
         Sample a batch from the replay buffer.
+
         This function does not check if the buffer is bigger than the
         `batch_size`.
 
