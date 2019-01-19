@@ -5,7 +5,8 @@ from typing import Optional
 import argparse
 
 
-def get_train_args(description: str = 'endtoendai/baselines', default_args: Optional[dict] = None) -> argparse.Namespace:
+def get_train_args(description: str = 'endtoendai/baselines',
+                   default_args: Optional[dict] = None) -> argparse.Namespace:
     """
     Parse arguments for training agents and return hyperparameters as a
     Namespace.

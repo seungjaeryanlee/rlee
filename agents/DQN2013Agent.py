@@ -8,8 +8,8 @@ import wandb
 
 class DQN2013Agent:
     def __init__(self, env: Any, dqn: Any, optimizer: Any, criterion: Any,
-                replay_buffer: Any, epsilon_func: Callable[[int], float], device: bool,
-                DISCOUNT: float, BATCH_SIZE: int, MIN_REPLAY_BUFFER_SIZE: int):
+                 replay_buffer: Any, epsilon_func: Callable[[int], float], device: bool,
+                 DISCOUNT: float, BATCH_SIZE: int, MIN_REPLAY_BUFFER_SIZE: int):
         """
         A Deep Q-Network (DQN) agent that can be trained with environments that
         have feature vectors as states and discrete values as actions. Uses
@@ -121,7 +121,7 @@ class DQN2013Agent:
                 'FPS': fps,
             }, step=frame_idx)
 
-    def _compute_loss(self, batch: Tuple[torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor]) -> torch.Tensor:
+    def _compute_loss(self, batch: Tuple) -> torch.Tensor:
         """
         Compute batch MSE loss between 1-step target Q and prediction Q.
 

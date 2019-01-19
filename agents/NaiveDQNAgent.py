@@ -3,7 +3,6 @@ import time
 from typing import Any, Callable, Tuple
 
 import torch
-import torch.nn as nn
 import wandb
 
 
@@ -112,7 +111,7 @@ class NaiveDQNAgent:
                 'FPS': fps,
             }, step=frame_idx)
 
-    def _compute_loss(self, batch: Tuple[torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor]) -> torch.Tensor:
+    def _compute_loss(self, batch: Tuple) -> torch.Tensor:
         """
         Compute batch MSE loss between 1-step target Q and prediction Q.
 

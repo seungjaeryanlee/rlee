@@ -11,7 +11,8 @@ class UniformReplayBuffer:
     def __len__(self) -> int:
         return len(self.buffer)
 
-    def push(self, state: torch.Tensor, action: int, reward: torch.Tensor, next_state: torch.Tensor, done: torch.Tensor) -> None:
+    def push(self, state: torch.Tensor, action: int, reward: torch.Tensor,
+             next_state: torch.Tensor, done: torch.Tensor) -> None:
         """
         Add a new interaction / experience to the replay buffer.
 
