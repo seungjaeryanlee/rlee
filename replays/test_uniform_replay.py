@@ -1,12 +1,12 @@
+"""Test UniformReplayBuffer."""
+
 import torch
 
 from .uniform_replay import UniformReplayBuffer
 
 
 def test_uniform_batch_type() -> None:
-    """
-    Test if `replay_buffer.sample()` returns five `torch.Tensor` objects.
-    """
+    """Test if `replay_buffer.sample()` returns five `torch.Tensor` objects."""
     BATCH_SIZE = 1
     replay_buffer = UniformReplayBuffer(BATCH_SIZE)
 
@@ -33,10 +33,7 @@ def test_uniform_batch_type() -> None:
 
 
 def test_uniform_batch_shape() -> None:
-    """
-    Test if `replay_buffer.sample()` returns five `torch.Tensor` objects with
-    correct shapes.
-    """
+    """Test if `replay_buffer.sample()` returns have correct shapes."""
     BATCH_SIZE = 2
     STATE_LEN = 4
     replay_buffer = UniformReplayBuffer(BATCH_SIZE)
