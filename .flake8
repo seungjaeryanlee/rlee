@@ -3,5 +3,6 @@ exclude =
     .git,
     __pycache__,
     .ipynb_checkpoints,
+    wrappers/atari_wrappers.py
 max-line-length = 120
 ignore = D107
