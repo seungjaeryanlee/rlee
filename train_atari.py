@@ -2,6 +2,8 @@
 """
 train_atari.py
 """
+from typing import Any
+
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -14,7 +16,7 @@ from replays import UniformReplayBuffer
 from wrappers import make_env
 
 
-def main():
+def main() -> None:
     # Check GPU
     device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 
@@ -34,6 +36,8 @@ def main():
     else:
         criterion = nn.MSELoss()
 
+    # Setup Agent
+    agent: Any = None
     # Setup NaiveDQNAgent
     if ARGS.AGENT == 'naive':
         dqn = DQN(num_inputs=env.observation_space.shape[0],
