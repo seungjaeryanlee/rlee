@@ -4,7 +4,7 @@ from typing import Any
 import gym
 
 from .atari_wrappers import make_atari, wrap_deepmind, WarpFrame, FrameStack
-from .raw_wrappers import AcrobotWrapper
+from .raw_wrappers import ClassicControlWrapper
 from .torch_wrappers import wrap_pytorch
 
 
@@ -25,12 +25,15 @@ def make_env(env_id: str) -> Any:
         Wrapped OpenAI Gym environment.
 
     """
-    if env_id in ['Acrobot']:
+    if env_id in ['Acrobot', 'CartPole', 'MountainCar']:
         # Create environment
-        env_id = 'Acrobot-v1'
+        if env_id in ['Acrobot', 'CartPole']:
+            env_id = env_id + '-v1'
+        else:
+            env_id = env_id + '-v0'
         env = gym.make(env_id)  # Don't use Frameskip, NoopReset
 
-        env = AcrobotWrapper(env)
+        env = ClassicControlWrapper(env)
 
         # Wrap environment to fit DeepMind-style environment
         env = WarpFrame(env)

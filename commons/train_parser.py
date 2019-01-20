@@ -86,7 +86,7 @@ def get_train_args(description: str = 'endtoendai/baselines',
 
     args = parser.parse_args()
 
-    if args.ENV_ID not in ['Acrobot', 'Pong']:
+    if args.ENV_ID not in ['Acrobot', 'CartPole', 'MountainCar', 'Pong']:
         raise ValueError('{} is not a supported environment.'.format(args.ENV_ID))
 
     args.USE_HUBER_LOSS = not args.NO_HUBER_LOSS
