@@ -6,8 +6,8 @@ import gym
 import numpy as np
 
 
-class AcrobotWrapper(gym.ObservationWrapper):
-    """Wrapper to use raw visual observation for Acrobot-v1."""
+class ClassicControlWrapper(gym.ObservationWrapper):
+    """Wrapper to use raw visual observation for classic control envs."""
 
     def __init__(self, env: Any):
         gym.ObservationWrapper.__init__(self, env)
