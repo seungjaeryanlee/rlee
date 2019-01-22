@@ -1,5 +1,6 @@
 atari-py==0.1.7
 gym==0.10.9
+gym-super-mario-bros==5.0.0
 numpy==1.15.4
 opencv-python==3.4.5.20
 scipy==1.2.0
