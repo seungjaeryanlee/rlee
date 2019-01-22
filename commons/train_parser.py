@@ -1,10 +1,11 @@
 """Parser for training an agent."""
 from typing import Optional
-import argparse
+
+import configargparse
 
 
 def get_train_args(description: str = 'endtoendai/baselines',
-                   default_args: Optional[dict] = None) -> argparse.Namespace:
+                   default_args: Optional[dict] = None) -> configargparse.Namespace:
     """
     Parse arguments for training agents and return hyperparameters as a Namespace.
 
@@ -20,7 +21,14 @@ def get_train_args(description: str = 'endtoendai/baselines',
         by default.
 
     """
-    parser = argparse.ArgumentParser(description)
+    parser = configargparse.ArgumentParser(description)
+    parser.add(
+        '--config',
+        help='config file path',
+        default='configs/pong.train.conf',
+        is_config_file=True,
+    )
+
     parser.add_argument('--env-id', action='store', dest='ENV_ID',
                         default='Pong', type=str,
                         help='Environment to train the agent in. Defaults to Pong.')
