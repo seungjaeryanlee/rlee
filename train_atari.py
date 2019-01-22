@@ -23,8 +23,11 @@ def main() -> None:
     ARGS = get_train_args()
 
     # Setup wandb
-    wandb.init(project='baselines')
-    wandb.config.update(ARGS)
+    wandb.init(
+        project='baselines',
+        dir='.wandb_log',
+        config=ARGS,
+    )
 
     # Setup Environment
     env = make_env(ARGS.ENV_ID)
