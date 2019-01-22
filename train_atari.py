@@ -26,8 +26,8 @@ def main() -> None:
     wandb.init(
         project='baselines',
         dir='.wandb_log',
+        config=ARGS,
     )
-    wandb.config.update(ARGS)
 
     # Setup Environment
     env = make_env(ARGS.ENV_ID)
