@@ -22,6 +22,13 @@ def get_train_args(description: str = 'endtoendai/baselines',
 
     """
     parser = configargparse.ArgumentParser(description)
+    parser.add(
+        '--config',
+        help='config file path',
+        default='configs/pong.train.conf',
+        is_config_file=True,
+    )
+
     parser.add_argument('--env-id', action='store', dest='ENV_ID',
                         default='Pong', type=str,
                         help='Environment to train the agent in. Defaults to Pong.')
