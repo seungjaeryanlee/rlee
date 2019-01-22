@@ -41,6 +41,21 @@ def make_env(env_id: str) -> Any:
 
         # Wrap environment for PyTorch agents
         env = wrap_pytorch(env)
+    elif env_id in ['Mario']:
+        from nes_py.wrappers import BinarySpaceToDiscreteSpaceEnv
+        import gym_super_mario_bros
+        from gym_super_mario_bros.actions import SIMPLE_MOVEMENT
+
+        env = gym_super_mario_bros.make('SuperMarioBros-v1')
+        env = BinarySpaceToDiscreteSpaceEnv(env, SIMPLE_MOVEMENT)
+
+        # Wrap environment to fit DeepMind-style environment
+        env = WarpFrame(env)
+        env = FrameStack(env, 4)
+
+        # Wrap environment for PyTorch agents
+        env = wrap_pytorch(env)
+
 
     elif env_id in ['Pong']:
         # Create environment
