@@ -70,6 +70,21 @@ def get_train_args(description: str = 'endtoendai/baselines',
     parser.add_argument('--rmsprop-not-centered', action='store_true', dest='RMSPROP_NOT_CENTERED',
                         help='RMSprop is not centered. Defaults to False.')
 
+    # Hyperparameters for Adam
+    parser.add_argument(
+        '--use-adam',
+        dest='USE_ADAM',
+        help='Use Adam optimizer instead of RMSprop.',
+        action='store_true',
+    )
+    parser.add_argument(
+        '--adam-lr',
+        dest='ADAM_LR',
+        help='Adam learning rate.',
+        default=1e-4,
+        type=float,
+    )
+
     # Hyperparameters for Replay Buffer
     parser.add_argument('--replay-buffer-size', action='store', dest='REPLAY_BUFFER_SIZE',
                         default=1000000, type=int,
