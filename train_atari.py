@@ -58,7 +58,8 @@ def main() -> None:
     if ARGS.AGENT == 'naive':
         epsilon_func = get_linear_decay(ARGS.EPSILON_DECAY_START, ARGS.EPSILON_DECAY_FINAL, ARGS.EPSILON_DECAY_DURATION)
         agent = NaiveDQNAgent(env, dqn, optimizer, criterion, epsilon_func, device,
-                              ARGS.DISCOUNT)
+                              ARGS.DISCOUNT
+                              ARGS.WANDB_INTERVAL)
     # Setup DQN2013Agent
     elif ARGS.AGENT == 'dqn2013':
         epsilon_func = get_linear_decay(ARGS.EPSILON_DECAY_START, ARGS.EPSILON_DECAY_FINAL, ARGS.EPSILON_DECAY_DURATION)
@@ -66,7 +67,8 @@ def main() -> None:
         agent = DQN2013Agent(env, dqn, optimizer, criterion, replay_buffer, epsilon_func, device,
                              ARGS.DISCOUNT,
                              ARGS.BATCH_SIZE,
-                             ARGS.MIN_REPLAY_BUFFER_SIZE)
+                             ARGS.MIN_REPLAY_BUFFER_SIZE
+                             ARGS.WANDB_INTERVAL)
     # Setup DQN2015Agent
     elif ARGS.AGENT == 'dqn2015':
         epsilon_func = get_linear_decay(ARGS.EPSILON_DECAY_START, ARGS.EPSILON_DECAY_FINAL, ARGS.EPSILON_DECAY_DURATION)
@@ -75,7 +77,8 @@ def main() -> None:
                              ARGS.DISCOUNT,
                              ARGS.BATCH_SIZE,
                              ARGS.MIN_REPLAY_BUFFER_SIZE,
-                             ARGS.TARGET_UPDATE_FREQ)
+                             ARGS.TARGET_UPDATE_FREQ,
+                             ARGS.WANDB_INTERVAL)
 
     # Train agent
     agent.train(ARGS.NB_STEPS)
