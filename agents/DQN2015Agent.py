@@ -28,7 +28,8 @@ class DQN2015Agent:
     def __init__(self, env: Any, dqn: Any, optimizer: Any, criterion: Any,
                  replay_buffer: Any, epsilon_func: Callable[[int], float],
                  device: bool, DISCOUNT: float, BATCH_SIZE: int,
-                 MIN_REPLAY_BUFFER_SIZE: int, TARGET_UPDATE_FREQ: int):
+                 MIN_REPLAY_BUFFER_SIZE: int, TARGET_UPDATE_FREQ: int,
+                 WANDB_INTERVAL: int):
         self.env = env
         self.current_dqn = dqn
         self.target_dqn = copy.deepcopy(dqn)
@@ -42,6 +43,7 @@ class DQN2015Agent:
         self.BATCH_SIZE = BATCH_SIZE
         self.MIN_REPLAY_BUFFER_SIZE = MIN_REPLAY_BUFFER_SIZE
         self.TARGET_UPDATE_FREQ = TARGET_UPDATE_FREQ
+        self.WANDB_INTERVAL = WANDB_INTERVAL
 
     def act(self, state: torch.Tensor, epsilon: float) -> int:
         """
@@ -122,9 +124,10 @@ class DQN2015Agent:
                 loss.backward()
                 self.optimizer.step()
 
-                wandb.log({
-                    'Loss': loss,
-                }, step=frame_idx)
+                if frame_idx % self.WANDB_INTERVAL == 0:
+                    wandb.log({
+                        'Loss': loss,
+                    }, step=frame_idx)
 
             # Update Target DQN periodically
             if frame_idx % self.TARGET_UPDATE_FREQ == 0:
@@ -136,12 +139,13 @@ class DQN2015Agent:
             t_delta = t_end - t_start
             fps = 1 / (t_end - t_start)
 
-            wandb.log({
-                'Epsilon': epsilon,
-                'Reward': reward,
-                'Time per frame': t_delta,
-                'FPS': fps,
-            }, step=frame_idx)
+            if frame_idx % self.WANDB_INTERVAL == 0:
+                wandb.log({
+                    'Epsilon': epsilon,
+                    'Reward': reward,
+                    'Time per frame': t_delta,
+                    'FPS': fps,
+                }, step=frame_idx)
 
     def _compute_loss(self, batch: Tuple) -> torch.Tensor:
         """

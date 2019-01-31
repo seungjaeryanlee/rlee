@@ -18,7 +18,8 @@ class NaiveDQNAgent:
     """
 
     def __init__(self, env: Any, dqn: Any, optimizer: Any, criterion: Any,
-                 epsilon_func: Callable[[int], float], device: bool, DISCOUNT: float):
+                 epsilon_func: Callable[[int], float], device: bool, DISCOUNT: float,
+                 WANDB_INTERVAL: int):
         self.env = env
         self.dqn = dqn
         self.optimizer = optimizer
@@ -27,6 +28,7 @@ class NaiveDQNAgent:
         self.device = device
 
         self.DISCOUNT = DISCOUNT
+        self.WANDB_INTERVAL = WANDB_INTERVAL
 
     def act(self, state: torch.Tensor, epsilon: float) -> int:
         """
@@ -111,13 +113,14 @@ class NaiveDQNAgent:
             t_delta = t_end - t_start
             fps = 1 / (t_end - t_start)
 
-            wandb.log({
-                'Epsilon': epsilon,
-                'Reward': reward,
-                'Loss': loss,
-                'Time per frame': t_delta,
-                'FPS': fps,
-            }, step=frame_idx)
+            if frame_idx % self.WANDB_INTERVAL == 0:
+                wandb.log({
+                    'Epsilon': epsilon,
+                    'Reward': reward,
+                    'Loss': loss,
+                    'Time per frame': t_delta,
+                    'FPS': fps,
+                }, step=frame_idx)
 
     def _compute_loss(self, batch: Tuple) -> torch.Tensor:
         """

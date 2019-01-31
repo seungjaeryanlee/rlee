@@ -26,7 +26,8 @@ class DQN2013Agent:
 
     def __init__(self, env: Any, dqn: Any, optimizer: Any, criterion: Any,
                  replay_buffer: Any, epsilon_func: Callable[[int], float], device: bool,
-                 DISCOUNT: float, BATCH_SIZE: int, MIN_REPLAY_BUFFER_SIZE: int):
+                 DISCOUNT: float, BATCH_SIZE: int, MIN_REPLAY_BUFFER_SIZE: int,
+                 WANDB_INTERVAL: int):
         self.env = env
         self.dqn = dqn
         self.optimizer = optimizer
@@ -38,6 +39,7 @@ class DQN2013Agent:
         self.DISCOUNT = DISCOUNT
         self.BATCH_SIZE = BATCH_SIZE
         self.MIN_REPLAY_BUFFER_SIZE = MIN_REPLAY_BUFFER_SIZE
+        self.WANDB_INTERVAL = WANDB_INTERVAL
 
     def act(self, state: torch.Tensor, epsilon: float) -> int:
         """
@@ -118,9 +120,10 @@ class DQN2013Agent:
                 loss.backward()
                 self.optimizer.step()
 
-                wandb.log({
-                    'Loss': loss,
-                }, step=frame_idx)
+                if frame_idx % self.WANDB_INTERVAL == 0:
+                    wandb.log({
+                        'Loss': loss,
+                    }, step=frame_idx)
 
             # End timer
             t_end = time.time()
@@ -128,12 +131,13 @@ class DQN2013Agent:
             t_delta = t_end - t_start
             fps = 1 / (t_end - t_start)
 
-            wandb.log({
-                'Epsilon': epsilon,
-                'Reward': reward,
-                'Time per frame': t_delta,
-                'FPS': fps,
-            }, step=frame_idx)
+            if frame_idx % self.WANDB_INTERVAL == 0:
+                wandb.log({
+                    'Epsilon': epsilon,
+                    'Reward': reward,
+                    'Time per frame': t_delta,
+                    'FPS': fps,
+                }, step=frame_idx)
 
     def _compute_loss(self, batch: Tuple) -> torch.Tensor:
         """
