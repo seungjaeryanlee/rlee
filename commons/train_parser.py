@@ -107,6 +107,11 @@ def get_train_args(description: str = 'endtoendai/baselines',
                         default=1000000, type=int,
                         help='Number of frames to decay epsilon for. Defaults to 1000000.')
 
+    # Hyperparameters for Logging
+    parser.add_argument('--wandb-interval', action='store', dest='WANDB_INTERVAL',
+                        default=100, type=int,
+                        help='How frequently logs should be sent to wandb. Defaults to 100.')
+
     args = parser.parse_args()
 
     if args.ENV_ID not in ['Acrobot', 'CartPole', 'MountainCar', 'Pong']:
