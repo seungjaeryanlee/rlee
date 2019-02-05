@@ -6,4 +6,4 @@ exclude =
     .git,
     __pycache__,
     .ipynb_checkpoints,
-    wrappers/atari_wrappers.py
+    rlee/wrappers/atari_wrappers.py
