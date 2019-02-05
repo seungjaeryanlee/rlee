@@ -5,7 +5,7 @@ import configargparse
 
 
 def get_train_args(
-    description: str = "endtoendai/baselines", default_args: Optional[dict] = None
+    description: str = "endtoendai/rlee", default_args: Optional[dict] = None
 ) -> configargparse.Namespace:
     """
     Parse arguments for training agents and return hyperparameters as a Namespace.
@@ -13,7 +13,7 @@ def get_train_args(
     Parameters
     ----------
     description: str
-        Description for the argument parser. Defaults to endtoendai/baselines.
+        Description for the argument parser. Defaults to endtoendai/rlee.
 
     Returns
     -------
