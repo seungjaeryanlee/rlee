@@ -11,6 +11,7 @@ dev:
 # Format code with black and isort
 format:
 	black .
+	seed-isort-config
 	isort -y
 
 # Test code with black, flake8, isort, mypy, and pytest.

@@ -9,3 +9,4 @@ pycodestyle==2.4.0
 pydocstyle==3.0.0
 pyflakes==2.0.0
 pytest==4.2.0
+seed-isort-config==1.5.0
