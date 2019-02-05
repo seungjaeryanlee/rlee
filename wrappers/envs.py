@@ -25,12 +25,12 @@ def make_env(env_id: str) -> Any:
         Wrapped OpenAI Gym environment.
 
     """
-    if env_id in ['Acrobot', 'CartPole', 'MountainCar']:
+    if env_id in ["Acrobot", "CartPole", "MountainCar"]:
         # Create environment
-        if env_id in ['Acrobot', 'CartPole']:
-            env_id = env_id + '-v1'
+        if env_id in ["Acrobot", "CartPole"]:
+            env_id = env_id + "-v1"
         else:
-            env_id = env_id + '-v0'
+            env_id = env_id + "-v0"
         env = gym.make(env_id)  # Don't use Frameskip, NoopReset
 
         env = ClassicControlWrapper(env)
@@ -42,9 +42,9 @@ def make_env(env_id: str) -> Any:
         # Wrap environment for PyTorch agents
         env = wrap_pytorch(env)
 
-    elif env_id in ['Pong']:
+    elif env_id in ["Pong"]:
         # Create environment
-        env_id = env_id + 'NoFrameskip-v4'
+        env_id = env_id + "NoFrameskip-v4"
         env = make_atari(env_id)
 
         # Wrap environment to fit DeepMind-style environment
@@ -53,6 +53,6 @@ def make_env(env_id: str) -> Any:
         # Wrap environment for PyTorch agents
         env = wrap_pytorch(env)
     else:
-        raise ValueError('{} is not a supported environment.'.format(env_id))
+        raise ValueError("{} is not a supported environment.".format(env_id))
 
     return env

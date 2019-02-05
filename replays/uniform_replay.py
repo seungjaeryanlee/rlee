@@ -14,8 +14,14 @@ class UniformReplayBuffer:
     def __len__(self) -> int:
         return len(self.buffer)
 
-    def push(self, state: torch.Tensor, action: int, reward: torch.Tensor,
-             next_state: torch.Tensor, done: torch.Tensor) -> None:
+    def push(
+        self,
+        state: torch.Tensor,
+        action: int,
+        reward: torch.Tensor,
+        next_state: torch.Tensor,
+        done: torch.Tensor,
+    ) -> None:
         """
         Add a new interaction / experience to the replay buffer.
 
@@ -34,8 +40,9 @@ class UniformReplayBuffer:
             Has shape (1, 1)
 
         """
-        self.buffer.append((state, torch.LongTensor(
-            [action]), reward, next_state, done))
+        self.buffer.append(
+            (state, torch.LongTensor([action]), reward, next_state, done)
+        )
 
     def sample(self, batch_size: int) -> torch.Tensor:
         """
@@ -58,6 +65,12 @@ class UniformReplayBuffer:
 
         """
         state, action, reward, next_state, done = zip(
-            *random.sample(self.buffer, batch_size))
-        return (torch.cat(state), torch.cat(action), torch.cat(reward),
-                torch.cat(next_state), torch.cat(done))
+            *random.sample(self.buffer, batch_size)
+        )
+        return (
+            torch.cat(state),
+            torch.cat(action),
+            torch.cat(reward),
+            torch.cat(next_state),
+            torch.cat(done),
+        )

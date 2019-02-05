@@ -27,9 +27,7 @@ class DQN(nn.Module):
             nn.ReLU(),
         )
         self.fc_layers = nn.Sequential(
-            nn.Linear(3136, 512),
-            nn.ReLU(),
-            nn.Linear(512, num_actions)
+            nn.Linear(3136, 512), nn.ReLU(), nn.Linear(512, num_actions)
         )
 
     def forward(self, x: torch.tensor) -> torch.tensor:

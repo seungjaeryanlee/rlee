@@ -17,9 +17,17 @@ class NaiveDQNAgent:
     Uses neither experience replay nor target network.
     """
 
-    def __init__(self, env: Any, dqn: Any, optimizer: Any, criterion: Any,
-                 epsilon_func: Callable[[int], float], device: bool, DISCOUNT: float,
-                 WANDB_INTERVAL: int):
+    def __init__(
+        self,
+        env: Any,
+        dqn: Any,
+        optimizer: Any,
+        criterion: Any,
+        epsilon_func: Callable[[int], float],
+        device: bool,
+        DISCOUNT: float,
+        WANDB_INTERVAL: int,
+    ):
         self.env = env
         self.dqn = dqn
         self.optimizer = optimizer
@@ -94,15 +102,23 @@ class NaiveDQNAgent:
 
             if done:
                 state = self.env.reset()
-                init_state_value_estimate = self.dqn(state.to(self.device)).max(1)[0].cpu().item()
+                init_state_value_estimate = (
+                    self.dqn(state.to(self.device)).max(1)[0].cpu().item()
+                )
 
-                print('Frame {:5d}/{:5d}\tReturn {:3.2f}\tLoss {:2.4f}'.format(
-                    frame_idx + 1, nb_frames, episode_reward, loss.item()))
-                wandb.log({
-                    'Episode Reward': episode_reward,
-                    'Episode Length': episode_length,
-                    'Value Estimate of Initial State': init_state_value_estimate,
-                }, step=frame_idx)
+                print(
+                    "Frame {:5d}/{:5d}\tReturn {:3.2f}\tLoss {:2.4f}".format(
+                        frame_idx + 1, nb_frames, episode_reward, loss.item()
+                    )
+                )
+                wandb.log(
+                    {
+                        "Episode Reward": episode_reward,
+                        "Episode Length": episode_length,
+                        "Value Estimate of Initial State": init_state_value_estimate,
+                    },
+                    step=frame_idx,
+                )
 
                 episode_reward = 0
                 episode_length = 0
@@ -114,13 +130,16 @@ class NaiveDQNAgent:
             fps = 1 / (t_end - t_start)
 
             if frame_idx % self.WANDB_INTERVAL == 0:
-                wandb.log({
-                    'Epsilon': epsilon,
-                    'Reward': reward,
-                    'Loss': loss,
-                    'Time per frame': t_delta,
-                    'FPS': fps,
-                }, step=frame_idx)
+                wandb.log(
+                    {
+                        "Epsilon": epsilon,
+                        "Reward": reward,
+                        "Loss": loss,
+                        "Time per frame": t_delta,
+                        "FPS": fps,
+                    },
+                    step=frame_idx,
+                )
 
     def _compute_loss(self, batch: Tuple) -> torch.Tensor:
         """
@@ -163,7 +182,9 @@ class NaiveDQNAgent:
             # Q_target(s', a')
             next_q_values = self.dqn(next_state_batch)
             next_q_value = next_q_values.max(dim=1)[0].squeeze()
-            expected_q_value = (reward_batch + self.DISCOUNT * next_q_value * (1 - done_batch)).cpu()
+            expected_q_value = (
+                reward_batch + self.DISCOUNT * next_q_value * (1 - done_batch)
+            ).cpu()
 
         assert expected_q_value.shape == q_value.shape
 
