@@ -3,9 +3,9 @@
 from typing import Any, Tuple
 
 import gym
-from gym import spaces
 import numpy as np
 import torch
+from gym import spaces
 
 
 class TorchTensorWrapper(gym.Wrapper):

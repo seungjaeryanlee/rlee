@@ -3,7 +3,7 @@ from typing import Any
 
 import gym
 
-from .atari_wrappers import make_atari, wrap_deepmind, WarpFrame, FrameStack
+from .atari_wrappers import FrameStack, WarpFrame, make_atari, wrap_deepmind
 from .raw_wrappers import ClassicControlWrapper
 from .torch_wrappers import wrap_pytorch
 

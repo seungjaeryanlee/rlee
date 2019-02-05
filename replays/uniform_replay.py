@@ -1,6 +1,6 @@
 """Uniform experience replay used in DQN2013 and DQN2015."""
-from collections import deque
 import random
+from collections import deque
 
 import torch
 
