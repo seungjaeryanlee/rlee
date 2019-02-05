@@ -25,11 +25,21 @@ class DQN2015Agent:
     https://storage.googleapis.com/deepmind-media/dqn/DQNNaturePaper.pdf
     """
 
-    def __init__(self, env: Any, dqn: Any, optimizer: Any, criterion: Any,
-                 replay_buffer: Any, epsilon_func: Callable[[int], float],
-                 device: bool, DISCOUNT: float, BATCH_SIZE: int,
-                 MIN_REPLAY_BUFFER_SIZE: int, TARGET_UPDATE_FREQ: int,
-                 WANDB_INTERVAL: int):
+    def __init__(
+        self,
+        env: Any,
+        dqn: Any,
+        optimizer: Any,
+        criterion: Any,
+        replay_buffer: Any,
+        epsilon_func: Callable[[int], float],
+        device: bool,
+        DISCOUNT: float,
+        BATCH_SIZE: int,
+        MIN_REPLAY_BUFFER_SIZE: int,
+        TARGET_UPDATE_FREQ: int,
+        WANDB_INTERVAL: int,
+    ):
         self.env = env
         self.current_dqn = dqn
         self.target_dqn = copy.deepcopy(dqn)
@@ -103,15 +113,23 @@ class DQN2015Agent:
 
             if done:
                 state = self.env.reset()
-                init_state_value_estimate = self.current_dqn(state.to(self.device)).max(1)[0].cpu().item()
+                init_state_value_estimate = (
+                    self.current_dqn(state.to(self.device)).max(1)[0].cpu().item()
+                )
 
-                print('Frame {:5d}/{:5d}\tReturn {:3.2f}\tLoss {:2.4f}'.format(
-                    frame_idx + 1, nb_frames, episode_reward, loss.item()))
-                wandb.log({
-                    'Episode Reward': episode_reward,
-                    'Episode Length': episode_length,
-                    'Value Estimate of Initial State': init_state_value_estimate,
-                }, step=frame_idx)
+                print(
+                    "Frame {:5d}/{:5d}\tReturn {:3.2f}\tLoss {:2.4f}".format(
+                        frame_idx + 1, nb_frames, episode_reward, loss.item()
+                    )
+                )
+                wandb.log(
+                    {
+                        "Episode Reward": episode_reward,
+                        "Episode Length": episode_length,
+                        "Value Estimate of Initial State": init_state_value_estimate,
+                    },
+                    step=frame_idx,
+                )
 
                 episode_reward = 0
                 episode_length = 0
@@ -125,9 +143,7 @@ class DQN2015Agent:
                 self.optimizer.step()
 
                 if frame_idx % self.WANDB_INTERVAL == 0:
-                    wandb.log({
-                        'Loss': loss,
-                    }, step=frame_idx)
+                    wandb.log({"Loss": loss}, step=frame_idx)
 
             # Update Target DQN periodically
             if frame_idx % self.TARGET_UPDATE_FREQ == 0:
@@ -140,12 +156,15 @@ class DQN2015Agent:
             fps = 1 / (t_end - t_start)
 
             if frame_idx % self.WANDB_INTERVAL == 0:
-                wandb.log({
-                    'Epsilon': epsilon,
-                    'Reward': reward,
-                    'Time per frame': t_delta,
-                    'FPS': fps,
-                }, step=frame_idx)
+                wandb.log(
+                    {
+                        "Epsilon": epsilon,
+                        "Reward": reward,
+                        "Time per frame": t_delta,
+                        "FPS": fps,
+                    },
+                    step=frame_idx,
+                )
 
     def _compute_loss(self, batch: Tuple) -> torch.Tensor:
         """
@@ -166,13 +185,14 @@ class DQN2015Agent:
             Has shape torch.Size([1]).
 
         """
-        state_batch, action_batch, reward_batch, \
-            next_state_batch, done_batch = self.replay_buffer.sample(self.BATCH_SIZE)
-        state_batch = state_batch.to(self.device)
-        action_batch = action_batch.to(self.device)
-        reward_batch = reward_batch.to(self.device)
-        next_state_batch = next_state_batch.to(self.device)
-        done_batch = done_batch.to(self.device)
+        state_b, action_b, reward_b, next_state_b, done_b = self.replay_buffer.sample(
+            self.BATCH_SIZE
+        )
+        state_batch = state_b.to(self.device)
+        action_batch = action_b.to(self.device)
+        reward_batch = reward_b.to(self.device)
+        next_state_batch = next_state_b.to(self.device)
+        done_batch = done_b.to(self.device)
 
         # Predicted Q: Q_current(s, a)
         # q_values : torch.Size([BATCH_SIZE, self.env.action_space.n])
@@ -189,7 +209,9 @@ class DQN2015Agent:
             # Q_target(s', a')
             next_q_values = self.target_dqn(next_state_batch)
             next_q_value = next_q_values.max(dim=1)[0].squeeze()
-            expected_q_value = (reward_batch + self.DISCOUNT * next_q_value * (1 - done_batch)).cpu()
+            expected_q_value = (
+                reward_batch + self.DISCOUNT * next_q_value * (1 - done_batch)
+            ).cpu()
 
         assert expected_q_value.shape == q_value.shape
 

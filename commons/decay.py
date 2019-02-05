@@ -2,7 +2,9 @@
 from typing import Callable
 
 
-def get_linear_decay(decay_start: float, decay_final: float, decay_duration: int) -> Callable[[int], float]:
+def get_linear_decay(
+    decay_start: float, decay_final: float, decay_duration: int
+) -> Callable[[int], float]:
     """
     Return a linear decay function. Assumes index start at 1.
 

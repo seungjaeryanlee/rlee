@@ -14,7 +14,7 @@ class ClassicControlWrapper(gym.ObservationWrapper):
 
     def observation(self, original_obs: Any) -> np.ndarray:
         """Return raw visual input as observation."""
-        screen = self.env.render(mode='rgb_array')
+        screen = self.env.render(mode="rgb_array")
         screen = np.ascontiguousarray(screen)
 
         return screen

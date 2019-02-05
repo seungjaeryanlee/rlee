@@ -3,9 +3,9 @@
 from typing import Any, Tuple
 
 import gym
-from gym import spaces
 import numpy as np
 import torch
+from gym import spaces
 
 
 class TorchTensorWrapper(gym.Wrapper):
@@ -46,10 +46,8 @@ class TorchPermuteWrapper(gym.ObservationWrapper):
         gym.ObservationWrapper.__init__(self, env)
         shp = env.observation_space.shape
         self.observation_space = spaces.Box(
-            low=0,
-            high=1,
-            shape=(shp[2], shp[0], shp[1]),
-            dtype=np.float32)
+            low=0, high=1, shape=(shp[2], shp[0], shp[1]), dtype=np.float32
+        )
 
     def observation(self, observation: torch.Tensor) -> torch.Tensor:
         """Permute observation to PyTorch style."""

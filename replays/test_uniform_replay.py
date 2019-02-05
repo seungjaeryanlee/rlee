@@ -20,11 +20,11 @@ def test_uniform_batch_type() -> None:
 
     state_b, action_b, reward_b, next_state_b, done_b = replay_buffer.sample(1)
 
-    print('S  : ', state_b)
-    print('A  : ', action_b)
-    print('R  : ', reward_b)
-    print('S\' : ', next_state_b)
-    print('D  : ', done_b)
+    print("S  : ", state_b)
+    print("A  : ", action_b)
+    print("R  : ", reward_b)
+    print("S' : ", next_state_b)
+    print("D  : ", done_b)
     assert type(state_b) == torch.Tensor
     assert type(action_b) == torch.Tensor
     assert type(reward_b) == torch.Tensor
@@ -46,14 +46,13 @@ def test_uniform_batch_shape() -> None:
         done = torch.FloatTensor([0])
         replay_buffer.push(state, action, reward, next_state, done)
 
-    state_b, action_b, reward_b, next_state_b, done_b = replay_buffer.sample(
-        BATCH_SIZE)
+    state_b, action_b, reward_b, next_state_b, done_b = replay_buffer.sample(BATCH_SIZE)
 
-    print('S  : ', state_b)
-    print('A  : ', action_b)
-    print('R  : ', reward_b)
-    print('S\' : ', next_state_b)
-    print('D  : ', done_b)
+    print("S  : ", state_b)
+    print("A  : ", action_b)
+    print("R  : ", reward_b)
+    print("S' : ", next_state_b)
+    print("D  : ", done_b)
     assert state_b.shape == torch.Size([BATCH_SIZE, STATE_LEN])
     assert action_b.shape == torch.Size([BATCH_SIZE])
     assert reward_b.shape == torch.Size([BATCH_SIZE])

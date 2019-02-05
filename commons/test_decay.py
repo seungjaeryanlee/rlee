@@ -21,7 +21,7 @@ def test_get_linear_decay_final() -> None:
 
 
 def test_get_linear_decay_no_decay() -> None:
-    """Test that linear decay function does not decay if starting and final values are same."""
+    """Test that linear decay function does not decay if start and end are same."""
     decay_start, decay_final, decay_duration = (0.5, 0.5, 1000000)
     decay_func = get_linear_decay(decay_start, decay_final, decay_duration)
 
