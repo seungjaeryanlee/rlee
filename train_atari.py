@@ -5,8 +5,8 @@ from typing import Any
 import torch
 import torch.nn as nn
 import torch.optim as optim
-
 import wandb
+
 from agents import DQN2013Agent, DQN2015Agent, NaiveDQNAgent
 from commons import get_linear_decay, get_train_args
 from networks import DQN

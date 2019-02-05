@@ -7,11 +7,10 @@ https://github.com/openai/baselines/blob/master/baselines/common/atari_wrappers.
 import os
 from collections import deque
 
+import cv2
 import gym
 import numpy as np
 from gym import spaces
-
-import cv2
 
 os.environ.setdefault("PATH", "")
 cv2.ocl.setUseOpenCL(False)
@@ -269,7 +268,7 @@ def make_atari(env_id, timelimit=True):  # type: ignore
     return env
 
 
-def wrap_deepmind(    # type: ignore
+def wrap_deepmind(  # type: ignore
     env, episode_life=True, clip_rewards=True, frame_stack=False, scale=False
 ):
     """Configure environment for DeepMind-style Atari.
