@@ -23,7 +23,6 @@ setuptools.setup(
         "Operating System :: OS Independent",
     ],
     install_requires=[
-        "atari-py",
         "ConfigArgParse",
         "gym",
         "numpy",
