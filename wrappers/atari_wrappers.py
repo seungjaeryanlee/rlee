@@ -269,9 +269,9 @@ def make_atari(env_id, timelimit=True):  # type: ignore
     return env
 
 
-def wrap_deepmind(
+def wrap_deepmind(    # type: ignore
     env, episode_life=True, clip_rewards=True, frame_stack=False, scale=False
-):  # type: ignore
+):
     """Configure environment for DeepMind-style Atari.
     """
     if episode_life:

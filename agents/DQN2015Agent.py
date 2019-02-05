@@ -186,14 +186,14 @@ class DQN2015Agent:
             Has shape torch.Size([1]).
 
         """
-        state_batch, action_batch, reward_batch, next_state_batch, done_batch = self.replay_buffer.sample(
+        state_b, action_b, reward_b, next_state_b, done_b = self.replay_buffer.sample(
             self.BATCH_SIZE
         )
-        state_batch = state_batch.to(self.device)
-        action_batch = action_batch.to(self.device)
-        reward_batch = reward_batch.to(self.device)
-        next_state_batch = next_state_batch.to(self.device)
-        done_batch = done_batch.to(self.device)
+        state_batch = state_b.to(self.device)
+        action_batch = action_b.to(self.device)
+        reward_batch = reward_b.to(self.device)
+        next_state_batch = next_state_b.to(self.device)
+        done_batch = done_b.to(self.device)
 
         # Predicted Q: Q_current(s, a)
         # q_values : torch.Size([BATCH_SIZE, self.env.action_space.n])

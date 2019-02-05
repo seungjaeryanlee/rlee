@@ -81,7 +81,8 @@ def get_train_args(
 
     # Hyperparameters for RMSprop
     # https://twitter.com/FlorinGogianu/status/1080139414695759872
-    # TODO Check weight decay hyperparameter again: is this the missing 0.95 hyperparameter?
+    # TODO Check weight decay hyperparameter again: is this the missing
+    # 0.95 hyperparameter?
     parser.add_argument(
         "--rmsprop-lr",
         action="store",
@@ -104,7 +105,10 @@ def get_train_args(
         dest="RMSPROP_EPS",
         default=0.01,
         type=float,
-        help="RMSprop constant term in denominator to improve numerical stability . Defaults to 0.01",
+        help=(
+            "RMSprop constant term in denominator to improve numerical"
+            " stability. Defaults to 0.01"
+        ),
     )
     parser.add_argument(
         "--rmsprop-weight-decay",
