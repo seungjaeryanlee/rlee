@@ -3,11 +3,11 @@ dependencies:
   - pip
   - pip:
     # requirements.txt
+    - atari-py==0.1.7
+    - ConfigArgParse==0.14.0
     - gym==0.10.9
-    - matplotlib==3.0.2
     - numpy==1.15.4
-    - opencv-python==3.4.4.19
-    - scikit-learn==0.20.1
-    - scipy==1.1.0
+    - opencv-python==3.4.5.20
+    - scipy==1.2.0
     - torch==1.0.0
-    - torchvision==0.2.1
+    - wandb==0.6.32
