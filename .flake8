@@ -7,5 +7,5 @@ exclude =
     __pycache__,
     .ipynb_checkpoints,
     rlee/wrappers/atari_wrappers.py,
-    rlee/build,
-    rlee/dist,
+    build,
+    dist,
