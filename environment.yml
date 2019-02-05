@@ -1,0 +1,13 @@
+name: r3
+dependencies:
+  - pip
+  - pip:
+    # requirements.txt
+    - gym==0.10.9
+    - matplotlib==3.0.2
+    - numpy==1.15.4
+    - opencv-python==3.4.4.19
+    - scikit-learn==0.20.1
+    - scipy==1.1.0
+    - torch==1.0.0
+    - torchvision==0.2.1
