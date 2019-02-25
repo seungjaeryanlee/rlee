@@ -4,8 +4,36 @@ Deep Q-Network.
 Human-level control through deep reinforcement learning
 https://storage.googleapis.com/deepmind-media/dqn/DQNNaturePaper.pdf
 """
+from typing import List
+
 import torch
 import torch.nn as nn
+
+
+class FCDQN(nn.Module):
+    """
+    Deep Q-network for environments with vector observations.
+    """
+
+    def __init__(self, input_size: int, layer_sizes: List[int]) -> None:
+        assert input_size > 0
+        assert len(layer_sizes) >= 1
+
+        super().__init__()
+
+        self.layers = []  # type: ignore
+        last_layer_size = input_size
+        for i, layer_size in enumerate(layer_sizes):
+            self.layers.append(nn.Linear(last_layer_size, layer_size))
+            self.layers.append(nn.ReLU())
+            last_layer_size = layer_size
+
+        self.layers.pop()  # Remove last ReLU
+
+    def forward(self, x: torch.tensor) -> torch.tensor:
+        """Propagate DQN forward."""
+        x = self.layers(x)  # type: ignore
+        return x
 
 
 class DQN(nn.Module):
