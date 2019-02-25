@@ -11,24 +11,26 @@ import torch.nn as nn
 
 
 class FCDQN(nn.Module):
-    """
-    Deep Q-network for environments with vector observations.
-    """
+    """Deep Q-network for environments with vector observations."""
 
-    def __init__(self, input_size: int, layer_sizes: List[int]) -> None:
-        assert input_size > 0
-        assert len(layer_sizes) >= 1
+    def __init__(
+        self, num_inputs: int, num_actions: int, layer_sizes: List[int] = None
+    ) -> None:
+        assert num_inputs > 0
+        assert layer_sizes is None or len(layer_sizes) >= 1
+        if layer_sizes is None:
+            layer_sizes = [64, 64]
 
         super().__init__()
 
         self.layers = []  # type: ignore
-        last_layer_size = input_size
-        for i, layer_size in enumerate(layer_sizes):
+        last_layer_size = num_inputs
+        for layer_size in layer_sizes:
             self.layers.append(nn.Linear(last_layer_size, layer_size))
             self.layers.append(nn.ReLU())
             last_layer_size = layer_size
 
-        self.layers.pop()  # Remove last ReLU
+        self.layers.append(nn.Linear(last_layer_size, num_actions))
 
     def forward(self, x: torch.tensor) -> torch.tensor:
         """Propagate DQN forward."""
