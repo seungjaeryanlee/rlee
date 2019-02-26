@@ -19,7 +19,7 @@ class FCDQN(nn.Module):
         assert num_inputs > 0
         assert layer_sizes is None or len(layer_sizes) >= 1
         if layer_sizes is None:
-            layer_sizes = [64, 64]
+            layer_sizes = [24, 24]
 
         super().__init__()
 
