@@ -200,6 +200,22 @@ def get_train_args(
         help="Number of frames to decay epsilon for. Defaults to 1000000.",
     )
 
+    # Hyperparameters for Reproducibility
+    parser.add_argument(
+        "--seed",
+        action="store",
+        dest="SEED",
+        default=None,
+        type=int,
+        help="Seed to reproduce the results.",
+    )
+    parser.add_argument(
+        "--deterministic",
+        action="store_true",
+        dest="DETERMINISTIC",
+        help="Whether to make cuDNN deterministic. Note that this slows down the performance",
+    )
+
     # Hyperparameters for Logging
     parser.add_argument(
         "--wandb-interval",
