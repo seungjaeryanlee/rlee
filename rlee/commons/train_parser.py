@@ -200,6 +200,22 @@ def get_train_args(
         help="Number of frames to decay epsilon for. Defaults to 1000000.",
     )
 
+    # Hyperparameters for Reproducibility
+    parser.add_argument(
+        "--seed",
+        action="store",
+        dest="SEED",
+        default=None,
+        type=int,
+        help="Seed to reproduce the results.",
+    )
+    parser.add_argument(
+        "--deterministic",
+        action="store_true",
+        dest="DETERMINISTIC",
+        help="Whether to make cuDNN deterministic. This slows down the performance",
+    )
+
     # Hyperparameters for Logging
     parser.add_argument(
         "--wandb-interval",
@@ -214,6 +230,10 @@ def get_train_args(
 
     if args.ENV_ID not in ["Acrobot", "CartPole", "MountainCar", "Pong"]:
         raise ValueError("{} is not a supported environment.".format(args.ENV_ID))
+    if args.SEED is None:
+        print("[WARNING] Seed not set: this run is not reproducible!")
+    else:
+        print("[INFO] Seed set to {}".format(args.SEED))
 
     args.USE_HUBER_LOSS = not args.NO_HUBER_LOSS
     args.RMSPROP_CENTERED = not args.RMSPROP_NOT_CENTERED

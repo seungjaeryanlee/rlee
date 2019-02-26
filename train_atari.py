@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 """Train DQN agent on Atari environment."""
+import random
 from typing import Any
 
+import numpy as np
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -27,6 +29,16 @@ def main() -> None:
 
     # Setup Environment
     env = make_env(ARGS.ENV_ID)
+
+    # For reproducibility
+    if ARGS.SEED is not None:
+        env.seed(ARGS.SEED)
+        random.seed(ARGS.SEED)
+        np.random.seed(ARGS.SEED)
+        torch.manual_seed(ARGS.SEED)
+    if ARGS.DETERMINISTIC:
+        torch.backends.cudnn.deterministic = True
+        torch.backends.cudnn.benchmark = False
 
     # Setup Loss Criterion
     if ARGS.USE_HUBER_LOSS:
