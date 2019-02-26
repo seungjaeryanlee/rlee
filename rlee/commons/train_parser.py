@@ -230,6 +230,10 @@ def get_train_args(
 
     if args.ENV_ID not in ["Acrobot", "CartPole", "MountainCar", "Pong"]:
         raise ValueError("{} is not a supported environment.".format(args.ENV_ID))
+    if args.SEED is None:
+        print("[WARNING] Seed not set: this run is not reproducible!")
+    else:
+        print("[INFO] Seed set to {}".format(args.SEED))
 
     args.USE_HUBER_LOSS = not args.NO_HUBER_LOSS
     args.RMSPROP_CENTERED = not args.RMSPROP_NOT_CENTERED
