@@ -39,7 +39,7 @@ def make_env(env_id: str) -> Any:
         # env = FrameStack(env, 4)
 
         # Wrap environment for PyTorch agents
-        env = wrap_pytorch(env)
+        env = wrap_pytorch(env, visual=False)
 
     elif env_id in ["Pong"]:
         # Create environment
