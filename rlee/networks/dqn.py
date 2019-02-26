@@ -23,14 +23,15 @@ class FCDQN(nn.Module):
 
         super().__init__()
 
-        self.layers = []  # type: ignore
+        layers = []  # type: ignore
         last_layer_size = num_inputs
         for layer_size in layer_sizes:
-            self.layers.append(nn.Linear(last_layer_size, layer_size))
-            self.layers.append(nn.ReLU())
+            layers.append(nn.Linear(last_layer_size, layer_size))
+            layers.append(nn.ReLU())
             last_layer_size = layer_size
+        layers.append(nn.Linear(last_layer_size, num_actions))
 
-        self.layers.append(nn.Linear(last_layer_size, num_actions))
+        self.layers = nn.Sequential(*layers)
 
     def forward(self, x: torch.tensor) -> torch.tensor:
         """Propagate DQN forward."""
