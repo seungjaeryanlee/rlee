@@ -213,7 +213,7 @@ def get_train_args(
         "--deterministic",
         action="store_true",
         dest="DETERMINISTIC",
-        help="Whether to make cuDNN deterministic. Note that this slows down the performance",
+        help="Whether to make cuDNN deterministic. This slows down the performance",
     )
 
     # Hyperparameters for Logging
