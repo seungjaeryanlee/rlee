@@ -54,9 +54,10 @@ class TorchPermuteWrapper(gym.ObservationWrapper):
         return observation.permute(0, 3, 1, 2)
 
 
-def wrap_pytorch(env: Any) -> Any:
+def wrap_pytorch(env: Any, visual: bool = True) -> Any:
     """Wrap environment to be compliant to PyTorch agents."""
     env = TorchTensorWrapper(env)
-    env = TorchPermuteWrapper(env)
+    if visual:
+        env = TorchPermuteWrapper(env)
 
     return env

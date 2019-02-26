@@ -3,8 +3,7 @@ from typing import Any
 
 import gym
 
-from .atari_wrappers import FrameStack, WarpFrame, make_atari, wrap_deepmind
-from .raw_wrappers import ClassicControlWrapper
+from .atari_wrappers import make_atari, wrap_deepmind
 from .torch_wrappers import wrap_pytorch
 
 
@@ -33,14 +32,14 @@ def make_env(env_id: str) -> Any:
             env_id = env_id + "-v0"
         env = gym.make(env_id)  # Don't use Frameskip, NoopReset
 
-        env = ClassicControlWrapper(env)
-
-        # Wrap environment to fit DeepMind-style environment
-        env = WarpFrame(env)
-        env = FrameStack(env, 4)
+        # NOTE The 3 lines below make classic control environments into
+        # a DeepMind-style environment with visual inputs
+        # env = ClassicControlWrapper(env)
+        # env = WarpFrame(env)
+        # env = FrameStack(env, 4)
 
         # Wrap environment for PyTorch agents
-        env = wrap_pytorch(env)
+        env = wrap_pytorch(env, visual=False)
 
     elif env_id in ["Pong"]:
         # Create environment
