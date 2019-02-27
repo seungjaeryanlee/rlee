@@ -228,7 +228,7 @@ def get_train_args(
 
     args = parser.parse_args()
 
-    if args.ENV_ID not in ["Acrobot", "CartPole", "MountainCar", "Pong"]:
+    if args.ENV_ID not in ["Acrobot", "CartPole", "MountainCar", "LunarLander", "Pong"]:
         raise ValueError("{} is not a supported environment.".format(args.ENV_ID))
     if args.SEED is None:
         print("[WARNING] Seed not set: this run is not reproducible!")

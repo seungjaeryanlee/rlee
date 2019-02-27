@@ -24,9 +24,11 @@ def make_env(env_id: str) -> Any:
         Wrapped OpenAI Gym environment.
 
     """
-    if env_id in ["Acrobot", "CartPole", "MountainCar"]:
+    if env_id in ["Acrobot", "CartPole", "MountainCar", "LunarLander"]:
         # Create environment
-        if env_id in ["Acrobot", "CartPole"]:
+        if env_id in ["LunarLander"]:
+            env_id = env_id + "-v2"
+        elif env_id in ["Acrobot", "CartPole"]:
             env_id = env_id + "-v1"
         else:
             env_id = env_id + "-v0"
