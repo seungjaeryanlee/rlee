@@ -50,6 +50,9 @@ def main() -> None:
         num_inputs=env.observation_space.shape[0], num_actions=env.action_space.n
     ).to(device)
 
+    # Watch DQN on model
+    wandb.watch(dqn)
+
     optimizer: Any = None  # noqa: E999
     if ARGS.USE_ADAM:
         optimizer = optim.Adam(dqn.parameters(), lr=ARGS.ADAM_LR)
