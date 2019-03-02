@@ -30,6 +30,7 @@ def get_train_args(
         is_config_file=True,
     )
 
+    # Environment
     parser.add_argument(
         "--env-id",
         action="store",
@@ -38,6 +39,14 @@ def get_train_args(
         type=str,
         help="Environment to train the agent in. Defaults to Pong.",
     )
+    parser.add_argument(
+        "--env-render",
+        action="store_true",
+        dest="ENV_RENDER",
+        help="Render the environment if true. Defaults to False.",
+    )
+
+    # Agent
     parser.add_argument(
         "--agent",
         action="store",
