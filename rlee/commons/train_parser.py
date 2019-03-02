@@ -1,12 +1,12 @@
 """Parser for training an agent."""
-from typing import Optional
+from typing import Dict, Optional, Tuple
 
 import configargparse
 
 
 def get_train_args(
     description: str = "endtoendai/rlee", default_args: Optional[dict] = None
-) -> configargparse.Namespace:
+) -> Tuple[configargparse.Namespace, Dict[str, configargparse.Namespace]]:
     """
     Parse arguments for training agents and return hyperparameters as a Namespace.
 
@@ -17,9 +17,12 @@ def get_train_args(
 
     Returns
     -------
-    args
+    ARGS
         Namespace containing hyperparameter options specified by user or set
         by default.
+    GROUPED_ARGS
+        Dictionary of Namespaces containing hyperparameter options of
+        relevant usage.
 
     """
     parser = configargparse.ArgumentParser(description)
@@ -259,16 +262,65 @@ def get_train_args(
         help="How frequently logs should be sent to wandb. Defaults to 100.",
     )
 
-    args = parser.parse_args()
+    ARGS = parser.parse_args()
 
-    if args.ENV_ID not in ["Acrobot", "CartPole", "MountainCar", "LunarLander", "Pong"]:
-        raise ValueError("{} is not a supported environment.".format(args.ENV_ID))
-    if args.SEED is None:
+    if ARGS.ENV_ID not in ["Acrobot", "CartPole", "MountainCar", "LunarLander", "Pong"]:
+        raise ValueError("{} is not a supported environment.".format(ARGS.ENV_ID))
+    if ARGS.SEED is None:
         print("[WARNING] Seed not set: this run is not reproducible!")
     else:
-        print("[INFO] Seed set to {}".format(args.SEED))
+        print("[INFO] Seed set to {}".format(ARGS.SEED))
 
-    args.USE_HUBER_LOSS = not args.NO_HUBER_LOSS
-    args.RMSPROP_CENTERED = not args.RMSPROP_NOT_CENTERED
+    ARGS.USE_HUBER_LOSS = not ARGS.NO_HUBER_LOSS
+    ARGS.RMSPROP_CENTERED = not ARGS.RMSPROP_NOT_CENTERED
 
-    return args
+    # Group arguments
+    ENV_ARGS = configargparse.Namespace(ENV_ID=ARGS.ENV_ID, ENV_RENDER=ARGS.ENV_RENDER)
+    AGENT_ARGS = configargparse.Namespace(AGENT=ARGS.AGENT)
+    DQN_ARGS = configargparse.Namespace(
+        NB_STEPS=ARGS.NB_STEPS,
+        DISCOUNT=ARGS.DISCOUNT,
+        TARGET_UPDATE_FREQ=ARGS.TARGET_UPDATE_FREQ,
+        NO_HUBER_LOSS=ARGS.NO_HUBER_LOSS,
+    )
+    OPTIMIZER_ARGS = configargparse.Namespace(
+        RMSPROP_LR=ARGS.RMSPROP_LR,
+        RMSPROP_ALPHA=ARGS.RMSPROP_ALPHA,
+        RMSPROP_EPS=ARGS.RMSPROP_EPS,
+        RMSPROP_WEIGHT_DECAY=ARGS.RMSPROP_WEIGHT_DECAY,
+        RMSPROP_MOMENTUM=ARGS.RMSPROP_MOMENTUM,
+        RMSPROP_NOT_CENTERED=ARGS.RMSPROP_NOT_CENTERED,
+        USE_ADAM=ARGS.USE_ADAM,
+        ADAM_LR=ARGS.ADAM_LR,
+    )
+    REPLAY_BUFFER_ARGS = configargparse.Namespace(
+        REPLAY_BUFFER_SIZE=ARGS.REPLAY_BUFFER_SIZE,
+        BATCH_SIZE=ARGS.BATCH_SIZE,
+        MIN_REPLAY_BUFFER_SIZE=ARGS.MIN_REPLAY_BUFFER_SIZE,
+    )
+    EPSILON_DECAY_ARGS = configargparse.Namespace(
+        EPSILON_DECAY_START=ARGS.EPSILON_DECAY_START,
+        EPSILON_DECAY_FINAL=ARGS.EPSILON_DECAY_FINAL,
+        EPSILON_DECAY_DURATION=ARGS.EPSILON_DECAY_DURATION,
+    )
+    REPRODUCIBILITY_ARGS = configargparse.Namespace(
+        SEED=ARGS.SEED, DETERMINISTIC=ARGS.DETERMINISTIC
+    )
+    LOGGING_ARGS = configargparse.Namespace(
+        WANDB_ENTITY=ARGS.WANDB_ENTITY,
+        WANDB_PROJECT=ARGS.WANDB_PROJECT,
+        WANDB_DIR=ARGS.WANDB_DIR,
+        WANDB_INTERVAL=ARGS.WANDB_INTERVAL,
+    )
+    GROUPED_ARGS = {
+        "ENV_ARGS": ENV_ARGS,
+        "AGENT_ARGS": AGENT_ARGS,
+        "DQN_ARGS": DQN_ARGS,
+        "OPTIMIZER_ARGS": OPTIMIZER_ARGS,
+        "REPLAY_BUFFER_ARGS": REPLAY_BUFFER_ARGS,
+        "EPSILON_DECAY_ARGS": EPSILON_DECAY_ARGS,
+        "REPRODUCIBILITY_ARGS": REPRODUCIBILITY_ARGS,
+        "LOGGING_ARGS": LOGGING_ARGS,
+    }
+
+    return ARGS, GROUPED_ARGS

@@ -22,7 +22,7 @@ def main() -> None:
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
     # Parse arguments
-    ARGS = get_train_args()
+    ARGS, _ = get_train_args()
 
     # Setup wandb
     wandb.init(
