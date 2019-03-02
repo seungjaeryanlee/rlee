@@ -218,6 +218,30 @@ def get_train_args(
 
     # Hyperparameters for Logging
     parser.add_argument(
+        "--wandb-entity",
+        action="store",
+        dest="WANDB_ENTITY",
+        default="endtoendai",
+        type=str,
+        help="Entity of wandb project. Defaults to endtoendai.",
+    )
+    parser.add_argument(
+        "--wandb-project",
+        action="store",
+        dest="WANDB_PROJECT",
+        default="rlee",
+        type=str,
+        help="Wandb project name. Defaults to rlee.",
+    )
+    parser.add_argument(
+        "--wandb-dir",
+        action="store",
+        dest="WANDB_DIR",
+        default="wandb_log/",
+        type=str,
+        help="Directory for wandb logs. Defaults to wandb_log/.",
+    )
+    parser.add_argument(
         "--wandb-interval",
         action="store",
         dest="WANDB_INTERVAL",
