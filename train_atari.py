@@ -82,6 +82,7 @@ def main() -> None:
             criterion,
             epsilon_func,
             device,
+            ARGS.ENV_RENDER,
             ARGS.DISCOUNT,
             ARGS.WANDB_INTERVAL,
         )
@@ -101,6 +102,7 @@ def main() -> None:
             replay_buffer,
             epsilon_func,
             device,
+            ARGS.ENV_RENDER,
             ARGS.DISCOUNT,
             ARGS.BATCH_SIZE,
             ARGS.MIN_REPLAY_BUFFER_SIZE,
@@ -122,6 +124,7 @@ def main() -> None:
             replay_buffer,
             epsilon_func,
             device,
+            ARGS.ENV_RENDER,
             ARGS.DISCOUNT,
             ARGS.BATCH_SIZE,
             ARGS.MIN_REPLAY_BUFFER_SIZE,

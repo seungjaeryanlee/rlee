@@ -25,6 +25,7 @@ class NaiveDQNAgent:
         criterion: Any,
         epsilon_func: Callable[[int], float],
         device: bool,
+        ENV_RENDER: bool,
         DISCOUNT: float,
         WANDB_INTERVAL: int,
     ):
@@ -35,6 +36,7 @@ class NaiveDQNAgent:
         self.epsilon_func = epsilon_func
         self.device = device
 
+        self.ENV_RENDER = ENV_RENDER
         self.DISCOUNT = DISCOUNT
         self.WANDB_INTERVAL = WANDB_INTERVAL
 
@@ -123,9 +125,12 @@ class NaiveDQNAgent:
                 episode_reward = 0
                 episode_length = 0
 
+            # Render environment
+            if self.ENV_RENDER:
+                self.env.render()
+
             # End timer
             t_end = time.time()
-
             t_delta = t_end - t_start
             fps = 1 / (t_end - t_start)
 

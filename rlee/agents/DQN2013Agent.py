@@ -33,6 +33,7 @@ class DQN2013Agent:
         replay_buffer: Any,
         epsilon_func: Callable[[int], float],
         device: bool,
+        ENV_RENDER: bool,
         DISCOUNT: float,
         BATCH_SIZE: int,
         MIN_REPLAY_BUFFER_SIZE: int,
@@ -46,6 +47,7 @@ class DQN2013Agent:
         self.epsilon_func = epsilon_func
         self.device = device
 
+        self.ENV_RENDER = ENV_RENDER
         self.DISCOUNT = DISCOUNT
         self.BATCH_SIZE = BATCH_SIZE
         self.MIN_REPLAY_BUFFER_SIZE = MIN_REPLAY_BUFFER_SIZE
@@ -141,9 +143,12 @@ class DQN2013Agent:
                 if frame_idx % self.WANDB_INTERVAL == 0:
                     wandb.log({"Loss": loss}, step=frame_idx)
 
+            # Render environment
+            if self.ENV_RENDER:
+                self.env.render()
+
             # End timer
             t_end = time.time()
-
             t_delta = t_end - t_start
             fps = 1 / (t_end - t_start)
 
