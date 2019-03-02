@@ -25,7 +25,12 @@ def main() -> None:
     ARGS = get_train_args()
 
     # Setup wandb
-    wandb.init(project="rlee", dir="wandb_log", config=ARGS)
+    wandb.init(
+        entity=ARGS.WANDB_ENTITY,
+        project=ARGS.WANDB_PROJECT,
+        dir=ARGS.WANDB_DIR,
+        config=ARGS,
+    )
 
     # Setup Environment
     env = make_env(ARGS.ENV_ID)
