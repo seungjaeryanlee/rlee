@@ -79,6 +79,7 @@ def main() -> None:
         replay_buffer,
         epsilon_func,
         device,
+        ARGS.ENV_RENDER,
         ARGS.DISCOUNT,
         ARGS.BATCH_SIZE,
         ARGS.MIN_REPLAY_BUFFER_SIZE,
