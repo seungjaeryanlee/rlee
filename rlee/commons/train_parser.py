@@ -27,7 +27,7 @@ def get_train_args(
         "-c",
         "--config",
         help="config file path",
-        default="configs/pong.train.conf",
+        default="configs/pong/dqn2015.train.conf",
         is_config_file=True,
     )
 
