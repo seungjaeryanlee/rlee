@@ -55,7 +55,8 @@ def main() -> None:
     episode_rewards = []
     for episode_idx in range(1, ARGS.NB_EPISODES + 1):
         obs = env.reset()
-        env.render()
+        if ARGS.ENV_RENDER:
+            env.render()
         episode_reward = 0
         done = False
         while not done:
