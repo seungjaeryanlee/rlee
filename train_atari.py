@@ -9,7 +9,7 @@ import torch.nn as nn
 import torch.optim as optim
 import wandb
 
-from rlee.agents import DQN2013Agent, DQN2015Agent, NaiveDQNAgent
+from rlee.agents import DQN2015Agent
 from rlee.commons import get_linear_decay, get_train_args
 from rlee.networks import DQN
 from rlee.replays import UniformReplayBuffer
@@ -66,71 +66,27 @@ def main() -> None:
             momentum=ARGS.RMSPROP_MOMENTUM,
             centered=ARGS.RMSPROP_CENTERED,
         )
+
     # Setup Agent
-    agent: Any = None  # noqa: E999
-    # Setup NaiveDQNAgent
-    if ARGS.AGENT == "naive":
-        epsilon_func = get_linear_decay(
-            ARGS.EPSILON_DECAY_START,
-            ARGS.EPSILON_DECAY_FINAL,
-            ARGS.EPSILON_DECAY_DURATION,
-        )
-        agent = NaiveDQNAgent(
-            env,
-            dqn,
-            optimizer,
-            criterion,
-            epsilon_func,
-            device,
-            ARGS.ENV_RENDER,
-            ARGS.DISCOUNT,
-            ARGS.WANDB_INTERVAL,
-        )
-    # Setup DQN2013Agent
-    elif ARGS.AGENT == "dqn2013":
-        epsilon_func = get_linear_decay(
-            ARGS.EPSILON_DECAY_START,
-            ARGS.EPSILON_DECAY_FINAL,
-            ARGS.EPSILON_DECAY_DURATION,
-        )
-        replay_buffer = UniformReplayBuffer(ARGS.REPLAY_BUFFER_SIZE)
-        agent = DQN2013Agent(
-            env,
-            dqn,
-            optimizer,
-            criterion,
-            replay_buffer,
-            epsilon_func,
-            device,
-            ARGS.ENV_RENDER,
-            ARGS.DISCOUNT,
-            ARGS.BATCH_SIZE,
-            ARGS.MIN_REPLAY_BUFFER_SIZE,
-            ARGS.WANDB_INTERVAL,
-        )
-    # Setup DQN2015Agent
-    elif ARGS.AGENT == "dqn2015":
-        epsilon_func = get_linear_decay(
-            ARGS.EPSILON_DECAY_START,
-            ARGS.EPSILON_DECAY_FINAL,
-            ARGS.EPSILON_DECAY_DURATION,
-        )
-        replay_buffer = UniformReplayBuffer(ARGS.REPLAY_BUFFER_SIZE)
-        agent = DQN2015Agent(
-            env,
-            dqn,
-            optimizer,
-            criterion,
-            replay_buffer,
-            epsilon_func,
-            device,
-            ARGS.ENV_RENDER,
-            ARGS.DISCOUNT,
-            ARGS.BATCH_SIZE,
-            ARGS.MIN_REPLAY_BUFFER_SIZE,
-            ARGS.TARGET_UPDATE_FREQ,
-            ARGS.WANDB_INTERVAL,
-        )
+    epsilon_func = get_linear_decay(
+        ARGS.EPSILON_DECAY_START, ARGS.EPSILON_DECAY_FINAL, ARGS.EPSILON_DECAY_DURATION
+    )
+    replay_buffer = UniformReplayBuffer(ARGS.REPLAY_BUFFER_SIZE)
+    agent = DQN2015Agent(
+        env,
+        dqn,
+        optimizer,
+        criterion,
+        replay_buffer,
+        epsilon_func,
+        device,
+        ARGS.ENV_RENDER,
+        ARGS.DISCOUNT,
+        ARGS.BATCH_SIZE,
+        ARGS.MIN_REPLAY_BUFFER_SIZE,
+        ARGS.TARGET_UPDATE_FREQ,
+        ARGS.WANDB_INTERVAL,
+    )
 
     # Train agent
     agent.train(ARGS.NB_STEPS)
