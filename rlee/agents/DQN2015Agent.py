@@ -40,6 +40,7 @@ class DQN2015Agent:
         MIN_REPLAY_BUFFER_SIZE: int,
         TARGET_UPDATE_FREQ: int,
         WANDB_INTERVAL: int,
+        SAVE_PATH: str = "saved_models",
     ):
         self.env = env
         self.current_dqn = dqn
@@ -56,6 +57,7 @@ class DQN2015Agent:
         self.MIN_REPLAY_BUFFER_SIZE = MIN_REPLAY_BUFFER_SIZE
         self.TARGET_UPDATE_FREQ = TARGET_UPDATE_FREQ
         self.WANDB_INTERVAL = WANDB_INTERVAL
+        self.SAVE_PATH = SAVE_PATH
 
     def act(self, state: torch.Tensor, epsilon: float) -> int:
         """
@@ -232,3 +234,10 @@ class DQN2015Agent:
     def _update_target(self) -> None:
         """Update weights of Target DQN with weights of current DQN."""
         self.target_dqn.load_state_dict(self.current_dqn.state_dict())
+
+    def save(self) -> None:
+        """Save DQN and optimizer."""
+        DQN_SAVE_PATH = "{}/dqn.pt".format(self.SAVE_PATH)
+        OPTIM_SAVE_PATH = "{}/optim.pt".format(self.SAVE_PATH)
+        torch.save(self.current_dqn.state_dict(), DQN_SAVE_PATH)
+        torch.save(self.optimizer.state_dict(), OPTIM_SAVE_PATH)
