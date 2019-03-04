@@ -24,6 +24,7 @@ def get_train_args(
     """
     parser = configargparse.ArgumentParser(description)
     parser.add(
+        "-c",
         "--config",
         help="config file path",
         default="configs/pong.train.conf",
