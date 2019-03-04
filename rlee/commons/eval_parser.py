@@ -8,8 +8,7 @@ def get_eval_args(
     description: str = "endtoendai/rlee", default_args: Optional[dict] = None
 ) -> configargparse.Namespace:
     """
-    Parse arguments for evaluating agents and return hyperparameters as
-    a Namespace.
+    Parse arguments for evaluating agents and return hyperparameter Namespace.
 
     Parameters
     ----------
