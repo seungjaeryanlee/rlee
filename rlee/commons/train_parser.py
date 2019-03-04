@@ -59,6 +59,14 @@ def get_train_args(
 
     # Hyperparameters for DQN
     parser.add_argument(
+        "--dqn-type",
+        action="store",
+        dest="DQN_TYPE",
+        default="CNN",
+        type=str,
+        help="Type of DQN (CNN or FC). Defaults to CNN.",
+    )
+    parser.add_argument(
         "--nb-steps",
         action="store",
         dest="NB_STEPS",

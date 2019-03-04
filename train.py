@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Train DQN agent on Atari environment."""
+"""Train DQN agent."""
 import random
 from typing import Any
 
@@ -11,13 +11,13 @@ import wandb
 
 from rlee.agents import DQN2015Agent
 from rlee.commons import get_linear_decay, get_train_args
-from rlee.networks import DQN
+from rlee.networks import DQN, FCDQN
 from rlee.replays import UniformReplayBuffer
 from rlee.wrappers import make_env
 
 
 def main() -> None:
-    """Train DQN agent on Atari environment."""
+    """Train DQN agent."""
     # Check GPU
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
@@ -25,7 +25,12 @@ def main() -> None:
     ARGS = get_train_args()
 
     # Setup wandb
-    wandb.init(project="rlee", dir="wandb_log", config=ARGS)
+    wandb.init(
+        entity=ARGS.WANDB_ENTITY,
+        project=ARGS.WANDB_PROJECT,
+        dir=ARGS.WANDB_DIR,
+        config=ARGS,
+    )
 
     # Setup Environment
     env = make_env(ARGS.ENV_ID)
@@ -46,9 +51,14 @@ def main() -> None:
     else:
         criterion = nn.MSELoss()
 
-    dqn = DQN(
-        num_inputs=env.observation_space.shape[0], num_actions=env.action_space.n
-    ).to(device)
+    if ARGS.DQN_TYPE == "CNN":
+        dqn = DQN(
+            num_inputs=env.observation_space.shape[0], num_actions=env.action_space.n
+        ).to(device)
+    elif ARGS.DQN_TYPE == "FC":
+        dqn = FCDQN(
+            num_inputs=env.observation_space.shape[0], num_actions=env.action_space.n
+        ).to(device)
 
     # Watch DQN on model
     wandb.watch(dqn)
@@ -67,7 +77,6 @@ def main() -> None:
             centered=ARGS.RMSPROP_CENTERED,
         )
 
-    # Setup Agent
     epsilon_func = get_linear_decay(
         ARGS.EPSILON_DECAY_START, ARGS.EPSILON_DECAY_FINAL, ARGS.EPSILON_DECAY_DURATION
     )
