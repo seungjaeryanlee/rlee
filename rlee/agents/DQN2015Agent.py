@@ -241,3 +241,17 @@ class DQN2015Agent:
         OPTIM_SAVE_PATH = "{}/optim.pt".format(self.SAVE_PATH)
         torch.save(self.current_dqn.state_dict(), DQN_SAVE_PATH)
         torch.save(self.optimizer.state_dict(), OPTIM_SAVE_PATH)
+
+    def load_for_training(self, LOAD_PATH: str) -> None:
+        """Load DQN and optimizer."""
+        DQN_SAVE_PATH = "{}/dqn.pt".format(LOAD_PATH)
+        OPTIM_SAVE_PATH = "{}/optim.pt".format(LOAD_PATH)
+        self.current_dqn.load_state_dict(torch.load(DQN_SAVE_PATH))
+        self._update_target()
+        self.optimizer.load_state_dict(torch.load(OPTIM_SAVE_PATH))
+
+    def load_model(self, LOAD_PATH: str) -> None:
+        """Load DQN."""
+        DQN_SAVE_PATH = "{}/dqn.pt".format(LOAD_PATH)
+        self.current_dqn.load_state_dict(torch.load(DQN_SAVE_PATH))
+        self._update_target()
