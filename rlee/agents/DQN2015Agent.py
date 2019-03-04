@@ -5,6 +5,7 @@ Human-level control through deep reinforcement learning
 https://storage.googleapis.com/deepmind-media/dqn/DQNNaturePaper.pdf
 """
 import copy
+import pathlib
 import random
 import time
 from typing import Any, Callable, Tuple
@@ -40,6 +41,7 @@ class DQN2015Agent:
         MIN_REPLAY_BUFFER_SIZE: int,
         TARGET_UPDATE_FREQ: int,
         WANDB_INTERVAL: int,
+        SAVE_PATH: str = "saved_models",
     ):
         self.env = env
         self.current_dqn = dqn
@@ -56,6 +58,7 @@ class DQN2015Agent:
         self.MIN_REPLAY_BUFFER_SIZE = MIN_REPLAY_BUFFER_SIZE
         self.TARGET_UPDATE_FREQ = TARGET_UPDATE_FREQ
         self.WANDB_INTERVAL = WANDB_INTERVAL
+        self.SAVE_PATH = SAVE_PATH
 
     def act(self, state: torch.Tensor, epsilon: float) -> int:
         """
@@ -95,6 +98,7 @@ class DQN2015Agent:
 
         """
         episode_reward = 0
+        max_episode_reward = 0
         episode_length = 0
         loss = torch.FloatTensor([0])
         state = self.env.reset()
@@ -121,6 +125,11 @@ class DQN2015Agent:
                 init_state_value_estimate = (
                     self.current_dqn(state.to(self.device)).max(1)[0].cpu().item()
                 )
+
+                # Save model if the episode is improved
+                if episode_reward > max_episode_reward:
+                    max_episode_reward = episode_reward
+                    self.save()
 
                 print(
                     "Frame {:5d}/{:5d}\tReturn {:3.2f}\tLoss {:2.4f}".format(
@@ -232,3 +241,27 @@ class DQN2015Agent:
     def _update_target(self) -> None:
         """Update weights of Target DQN with weights of current DQN."""
         self.target_dqn.load_state_dict(self.current_dqn.state_dict())
+
+    def save(self) -> None:
+        """Save DQN and optimizer."""
+        # Make directory if it doesn't exist yet
+        pathlib.Path(self.SAVE_PATH).mkdir(parents=True, exist_ok=True)
+
+        DQN_SAVE_PATH = "{}/dqn.pt".format(self.SAVE_PATH)
+        OPTIM_SAVE_PATH = "{}/optim.pt".format(self.SAVE_PATH)
+        torch.save(self.current_dqn.state_dict(), DQN_SAVE_PATH)
+        torch.save(self.optimizer.state_dict(), OPTIM_SAVE_PATH)
+
+    def load_for_training(self, LOAD_PATH: str) -> None:
+        """Load DQN and optimizer."""
+        DQN_SAVE_PATH = "{}/dqn.pt".format(LOAD_PATH)
+        OPTIM_SAVE_PATH = "{}/optim.pt".format(LOAD_PATH)
+        self.current_dqn.load_state_dict(torch.load(DQN_SAVE_PATH))
+        self._update_target()
+        self.optimizer.load_state_dict(torch.load(OPTIM_SAVE_PATH))
+
+    def load_model(self, LOAD_PATH: str) -> None:
+        """Load DQN."""
+        DQN_SAVE_PATH = "{}/dqn.pt".format(LOAD_PATH)
+        self.current_dqn.load_state_dict(torch.load(DQN_SAVE_PATH))
+        self._update_target()
