@@ -51,11 +51,11 @@ def main() -> None:
     else:
         criterion = nn.MSELoss()
 
-    if ARGS.ENV_ID == "Pong":
+    if ARGS.DQN_TYPE == "CNN":
         dqn = DQN(
             num_inputs=env.observation_space.shape[0], num_actions=env.action_space.n
         ).to(device)
-    else:  # "Acrobot", "CartPole", "MountainCar", "LunarLander"
+    elif ARGS.DQN_TYPE == "FC":
         dqn = FCDQN(
             num_inputs=env.observation_space.shape[0], num_actions=env.action_space.n
         ).to(device)
