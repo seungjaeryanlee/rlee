@@ -54,7 +54,7 @@ def get_train_args(
         dest="AGENT",
         default="dqn2015",
         type=str,
-        help="Environment to train the agent in. Defaults to dqn2015.",
+        help="Agent to train. Defaults to dqn2015.",
     )
 
     # Hyperparameters for DQN
