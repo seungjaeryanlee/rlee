@@ -6,7 +6,7 @@ import numpy as np
 import torch
 
 from rlee.agents import DQN2015Agent
-from rlee.commons import get_train_args
+from rlee.commons import get_eval_args
 from rlee.networks import DQN, FCDQN
 from rlee.wrappers import make_env
 
@@ -17,8 +17,7 @@ def main() -> None:
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
     # Parse arguments
-    # TODO Separate parser for arguments
-    ARGS = get_train_args()
+    ARGS = get_eval_args()
 
     # Setup Environment
     env = make_env(ARGS.ENV_ID)
@@ -43,19 +42,7 @@ def main() -> None:
         ).to(device)
 
     agent = DQN2015Agent(  # type: ignore
-        env,
-        dqn,
-        None,
-        None,
-        None,
-        None,
-        None,
-        ARGS.ENV_RENDER,
-        ARGS.DISCOUNT,
-        ARGS.BATCH_SIZE,
-        ARGS.MIN_REPLAY_BUFFER_SIZE,
-        ARGS.TARGET_UPDATE_FREQ,
-        ARGS.WANDB_INTERVAL,
+        env, dqn, None, None, None, None, None, None, None, None, None, None, None
     )
 
     # Load agent
@@ -65,18 +52,27 @@ def main() -> None:
     # This is intentionally not modularized inside the Agent class
     # (as in, agent.eval) because we often want to add additional
     # code here to analyze the agent's behaviors.
-    obs = env.reset()
-    env.render()
-    episode_reward = 0
-    done = False
-    while not done:
-        action = agent.act(obs, 0)
-        obs, reward, done, _ = env.step(action)
-        episode_reward += reward.item()
-        if ARGS.ENV_RENDER:
-            env.render()
+    episode_rewards = []
+    for episode_idx in range(1, ARGS.NB_EPISODES + 1):
+        obs = env.reset()
+        env.render()
+        episode_reward = 0
+        done = False
+        while not done:
+            action = agent.act(obs, 0)
+            obs, reward, done, _ = env.step(action)
+            episode_reward += reward.item()
+            if ARGS.ENV_RENDER:
+                env.render()
 
-    print("Episode Reward: {}".format(episode_reward))
+        episode_rewards.append(episode_reward)
+        print(
+            "Episode {:2d}/{:2d} Episode Reward: {}".format(
+                episode_idx, ARGS.NB_EPISODES, episode_reward
+            )
+        )
+
+    print("Average Episode Reward: {}".format(sum(episode_rewards) / ARGS.NB_EPISODES))
     env.close()
 
 
