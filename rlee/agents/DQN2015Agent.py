@@ -5,6 +5,7 @@ Human-level control through deep reinforcement learning
 https://storage.googleapis.com/deepmind-media/dqn/DQNNaturePaper.pdf
 """
 import copy
+import pathlib
 import random
 import time
 from typing import Any, Callable, Tuple
@@ -243,6 +244,9 @@ class DQN2015Agent:
 
     def save(self) -> None:
         """Save DQN and optimizer."""
+        # Make directory if it doesn't exist yet
+        pathlib.Path(self.SAVE_PATH).mkdir(parents=True, exist_ok=True)
+
         DQN_SAVE_PATH = "{}/dqn.pt".format(self.SAVE_PATH)
         OPTIM_SAVE_PATH = "{}/optim.pt".format(self.SAVE_PATH)
         torch.save(self.current_dqn.state_dict(), DQN_SAVE_PATH)
