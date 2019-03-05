@@ -5,7 +5,6 @@ import random
 import numpy as np
 import torch
 
-from rlee.agents import DQN2015Agent
 from rlee.commons import get_eval_args
 from rlee.networks import DQN, FCDQN
 from rlee.wrappers import make_env
@@ -41,7 +40,17 @@ def main() -> None:
             num_inputs=env.observation_space.shape[0], num_actions=env.action_space.n
         ).to(device)
 
-    agent = DQN2015Agent(  # type: ignore
+    # Initialize agent
+    if ARGS.AGENT == "dqn2015":
+        from rlee.agents import DQN2015Agent
+
+        Agent = DQN2015Agent  # type: ignore
+    elif ARGS.AGENT == "doubledqn":
+        from rlee.agents import DoubleDQNAgent
+
+        Agent = DoubleDQNAgent  # type: ignore
+
+    agent = Agent(  # type: ignore
         env,
         dqn,
         None,
