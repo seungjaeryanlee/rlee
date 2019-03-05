@@ -91,6 +91,15 @@ def get_eval_args(
         help="Whether to make cuDNN deterministic. This slows down the performance",
     )
 
+    parser.add_argument(
+        "--load-dir",
+        action="store",
+        dest="LOAD_DIR",
+        default="saved_models/",
+        type=str,
+        help="Directory of saved files.",
+    )
+
     args = parser.parse_args()
 
     if args.ENV_ID not in ["Acrobot", "CartPole", "MountainCar", "LunarLander", "Pong"]:
@@ -99,5 +108,7 @@ def get_eval_args(
         print("[WARNING] Seed not set: this run is not reproducible!")
     else:
         print("[INFO] Seed set to {}".format(args.SEED))
+
+    args.LOAD_PREFIX = "{}/{}_{}_best_".format(args.LOAD_DIR, args.ENV_ID, args.AGENT)
 
     return args
