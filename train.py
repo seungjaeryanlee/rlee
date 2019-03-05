@@ -95,6 +95,7 @@ def main() -> None:
         ARGS.MIN_REPLAY_BUFFER_SIZE,
         ARGS.TARGET_UPDATE_FREQ,
         ARGS.WANDB_INTERVAL,
+        ARGS.SAVE_PREFIX,
     )
 
     # Train agent
