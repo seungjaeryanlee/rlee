@@ -168,6 +168,14 @@ def get_train_args(
 
     # Hyperparameters for Replay Buffer
     parser.add_argument(
+        "--replay-buffer-type",
+        action="store",
+        dest="REPLAY_BUFFER_TYPE",
+        default="uniform",
+        type=str,
+        help="Type of experience replay buffer. Defaults to uniform.",
+    )
+    parser.add_argument(
         "--replay-buffer-size",
         action="store",
         dest="REPLAY_BUFFER_SIZE",
