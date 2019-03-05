@@ -236,6 +236,9 @@ def get_train_args(
 
     # Hyperparameters for Logging
     parser.add_argument(
+        "--wandb", action="store_true", dest="WANDB", help="Log to wandb."
+    )
+    parser.add_argument(
         "--wandb-entity",
         action="store",
         dest="WANDB_ENTITY",
@@ -284,6 +287,9 @@ def get_train_args(
         print("[WARNING] Seed not set: this run is not reproducible!")
     else:
         print("[INFO] Seed set to {}".format(args.SEED))
+
+    if not args.WANDB:
+        print("[INFO] Wandb disabled. Use --wandb flag to log to wandb.")
 
     args.USE_HUBER_LOSS = not args.NO_HUBER_LOSS
     args.RMSPROP_CENTERED = not args.RMSPROP_NOT_CENTERED
