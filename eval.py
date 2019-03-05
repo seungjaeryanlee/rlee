@@ -42,7 +42,21 @@ def main() -> None:
         ).to(device)
 
     agent = DQN2015Agent(  # type: ignore
-        env, dqn, None, None, None, None, None, None, None, None, None, None, None, None
+        env,
+        dqn,
+        None,
+        None,
+        None,
+        None,
+        None,
+        None,
+        None,
+        None,
+        None,
+        None,
+        None,
+        None,
+        None,
     )
 
     # Load agent

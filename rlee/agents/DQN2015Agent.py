@@ -40,6 +40,7 @@ class DQN2015Agent:
         BATCH_SIZE: int,
         MIN_REPLAY_BUFFER_SIZE: int,
         TARGET_UPDATE_FREQ: int,
+        WANDB: bool,
         WANDB_INTERVAL: int,
         SAVE_PREFIX: str,
     ):
@@ -57,6 +58,7 @@ class DQN2015Agent:
         self.BATCH_SIZE = BATCH_SIZE
         self.MIN_REPLAY_BUFFER_SIZE = MIN_REPLAY_BUFFER_SIZE
         self.TARGET_UPDATE_FREQ = TARGET_UPDATE_FREQ
+        self.WANDB = WANDB
         self.WANDB_INTERVAL = WANDB_INTERVAL
         self.SAVE_PREFIX = SAVE_PREFIX
 
@@ -137,14 +139,15 @@ class DQN2015Agent:
                         frame_idx + 1, nb_frames, episode_reward, loss.item()
                     )
                 )
-                wandb.log(
-                    {
-                        "Episode Reward": episode_reward,
-                        "Episode Length": episode_length,
-                        "Value Estimate of Initial State": init_state_value_estimate,
-                    },
-                    step=frame_idx,
-                )
+                if self.WANDB:
+                    wandb.log(
+                        {
+                            "Episode Reward": episode_reward,
+                            "Episode Length": episode_length,
+                            "Initial State Value Estimate": init_state_value_estimate,
+                        },
+                        step=frame_idx,
+                    )
 
                 episode_reward = 0
                 episode_length = 0
@@ -157,7 +160,7 @@ class DQN2015Agent:
                 loss.backward()
                 self.optimizer.step()
 
-                if frame_idx % self.WANDB_INTERVAL == 0:
+                if self.WANDB and frame_idx % self.WANDB_INTERVAL == 0:
                     wandb.log({"Loss": loss}, step=frame_idx)
 
             # Update Target DQN periodically
@@ -174,7 +177,7 @@ class DQN2015Agent:
             fps = 1 / (t_end - t_start)
 
             # Log to wandb
-            if frame_idx % self.WANDB_INTERVAL == 0:
+            if self.WANDB and frame_idx % self.WANDB_INTERVAL == 0:
                 wandb.log(
                     {
                         "Epsilon": epsilon,

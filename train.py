@@ -25,12 +25,13 @@ def main() -> None:
     ARGS = get_train_args()
 
     # Setup wandb
-    wandb.init(
-        entity=ARGS.WANDB_ENTITY,
-        project=ARGS.WANDB_PROJECT,
-        dir=ARGS.WANDB_DIR,
-        config=ARGS,
-    )
+    if ARGS.WANDB:
+        wandb.init(
+            entity=ARGS.WANDB_ENTITY,
+            project=ARGS.WANDB_PROJECT,
+            dir=ARGS.WANDB_DIR,
+            config=ARGS,
+        )
 
     # Setup Environment
     env = make_env(ARGS.ENV_ID)
@@ -61,7 +62,8 @@ def main() -> None:
         ).to(device)
 
     # Watch DQN on model
-    wandb.watch(dqn)
+    if ARGS.WANDB:
+        wandb.watch(dqn)
 
     optimizer: Any = None  # noqa: E999
     if ARGS.USE_ADAM:
@@ -94,6 +96,7 @@ def main() -> None:
         ARGS.BATCH_SIZE,
         ARGS.MIN_REPLAY_BUFFER_SIZE,
         ARGS.TARGET_UPDATE_FREQ,
+        ARGS.WANDB,
         ARGS.WANDB_INTERVAL,
         ARGS.SAVE_PREFIX,
     )
