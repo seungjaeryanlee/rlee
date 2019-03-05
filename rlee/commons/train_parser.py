@@ -310,6 +310,8 @@ def get_train_args(
 
     args.USE_HUBER_LOSS = not args.NO_HUBER_LOSS
     args.RMSPROP_CENTERED = not args.RMSPROP_NOT_CENTERED
-    args.SAVE_PREFIX = "{}/{}_{}_best_".format(args.SAVE_DIR, args.ENV_ID, args.AGENT)
+    args.SAVE_PREFIX = "{}/{}_{}_{}_best_".format(
+        args.SAVE_DIR, args.ENV_ID, args.AGENT, args.REPLAY_BUFFER_TYPE
+    )
 
     return args

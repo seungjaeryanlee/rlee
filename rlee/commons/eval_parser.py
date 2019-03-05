@@ -75,6 +75,16 @@ def get_eval_args(
         help="Number of episodes for evaluating DQN. Defaults to 1.",
     )
 
+    # Hyperparameters for Replay Buffer
+    parser.add_argument(
+        "--replay-buffer-type",
+        action="store",
+        dest="REPLAY_BUFFER_TYPE",
+        default="uniform",
+        type=str,
+        help="Type of experience replay buffer. Defaults to uniform.",
+    )
+
     # Hyperparameters for Reproducibility
     parser.add_argument(
         "--seed",
@@ -109,6 +119,8 @@ def get_eval_args(
     else:
         print("[INFO] Seed set to {}".format(args.SEED))
 
-    args.LOAD_PREFIX = "{}/{}_{}_best_".format(args.LOAD_DIR, args.ENV_ID, args.AGENT)
+    args.LOAD_PREFIX = "{}/{}_{}_{}_best_".format(
+        args.LOAD_DIR, args.ENV_ID, args.AGENT, args.REPLAY_BUFFER_TYPE
+    )
 
     return args
