@@ -11,7 +11,6 @@ import wandb
 
 from rlee.commons import get_linear_decay, get_train_args
 from rlee.networks import DQN, FCDQN
-from rlee.replays import UniformReplayBuffer
 from rlee.wrappers import make_env
 
 
@@ -81,7 +80,18 @@ def main() -> None:
     epsilon_func = get_linear_decay(
         ARGS.EPSILON_DECAY_START, ARGS.EPSILON_DECAY_FINAL, ARGS.EPSILON_DECAY_DURATION
     )
-    replay_buffer = UniformReplayBuffer(ARGS.REPLAY_BUFFER_SIZE)
+
+    # Initialize replay buffer
+    if ARGS.REPLAY_BUFFER_TYPE == "uniform":
+        from rlee.replays import UniformReplayBuffer
+
+        replay_buffer = UniformReplayBuffer(ARGS.REPLAY_BUFFER_SIZE)  # type: ignore
+        print("[INFO] Using UNIFORM replay buffer.")
+    elif ARGS.REPLAY_BUFFER_TYPE == "combined":
+        from rlee.replays import CombinedReplayBuffer
+
+        replay_buffer = CombinedReplayBuffer(ARGS.REPLAY_BUFFER_SIZE)  # type: ignore
+        print("[INFO] Using COMBINED replay buffer.")
 
     # Initialize agent
     if ARGS.AGENT == "dqn2015":
