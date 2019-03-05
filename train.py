@@ -9,7 +9,6 @@ import torch.nn as nn
 import torch.optim as optim
 import wandb
 
-from rlee.agents import DQN2015Agent
 from rlee.commons import get_linear_decay, get_train_args
 from rlee.networks import DQN, FCDQN
 from rlee.replays import UniformReplayBuffer
@@ -83,7 +82,18 @@ def main() -> None:
         ARGS.EPSILON_DECAY_START, ARGS.EPSILON_DECAY_FINAL, ARGS.EPSILON_DECAY_DURATION
     )
     replay_buffer = UniformReplayBuffer(ARGS.REPLAY_BUFFER_SIZE)
-    agent = DQN2015Agent(
+
+    # Initialize agent
+    if ARGS.AGENT == "dqn2015":
+        from rlee.agents import DQN2015Agent
+
+        Agent = DQN2015Agent  # type: ignore
+    elif ARGS.AGENT == "doubledqn":
+        from rlee.agents import DoubleDQNAgent
+
+        Agent = DoubleDQNAgent  # type: ignore
+
+    agent = Agent(
         env,
         dqn,
         optimizer,

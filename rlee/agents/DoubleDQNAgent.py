@@ -222,21 +222,18 @@ class DoubleDQNAgent:
         # (DQN2015)    Target Q: r + gamma * max_{a'} Q_target(s', a')
         # (Double DQN) Target Q: r + gamma * Q_target(s', argmax_a Q(s', a'))
         # next_q_values    : torch.Size([BATCH_SIZE, self.env.action_space.n])
+        # best_action      : torch.Size([BATCH_SIZE, 1])
         # next_q_value     : torch.Size([BATCH_SIZE])
         # expected_q_value : torch.Size([BATCH_SIZE])
         with torch.no_grad():
             # Q(s', a')
             next_q_values = self.current_dqn(next_state_batch)
-            print("Next Q Values: ", next_q_values.shape)
             # argmax_a Q(s', a')
             best_action = next_q_values.max(dim=1)[1].unsqueeze(1)
-            print("Best action: ", best_action.shape)
             # Q_target(s', argmax_a Q(s', a'))
             next_q_value = (
                 self.target_dqn(next_state_batch).gather(1, best_action).squeeze(1)
             )
-            print("Next Q Value: ", next_q_value.shape)
-            # next_q_value = next_q_values.max(dim=1)[0].squeeze()
 
             expected_q_value = (
                 reward_batch + self.DISCOUNT * next_q_value * (1 - done_batch)
