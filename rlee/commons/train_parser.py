@@ -268,6 +268,14 @@ def get_train_args(
         help="How frequently logs should be sent to wandb. Defaults to 100.",
     )
 
+    parser.add_argument(
+        "--save-dir",
+        action="store",
+        dest="SAVE_DIR",
+        default="saved_models/",
+        type=str,
+        help="Directory of saved files.",
+    )
     args = parser.parse_args()
 
     if args.ENV_ID not in ["Acrobot", "CartPole", "MountainCar", "LunarLander", "Pong"]:
@@ -279,5 +287,6 @@ def get_train_args(
 
     args.USE_HUBER_LOSS = not args.NO_HUBER_LOSS
     args.RMSPROP_CENTERED = not args.RMSPROP_NOT_CENTERED
+    args.SAVE_PREFIX = "{}/{}_{}_best_".format(args.SAVE_DIR, args.ENV_ID, args.AGENT)
 
     return args

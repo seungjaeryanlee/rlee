@@ -42,11 +42,11 @@ def main() -> None:
         ).to(device)
 
     agent = DQN2015Agent(  # type: ignore
-        env, dqn, None, None, None, None, None, None, None, None, None, None, None
+        env, dqn, None, None, None, None, None, None, None, None, None, None, None, None
     )
 
     # Load agent
-    agent.load_model(LOAD_PATH="saved_models/")
+    agent.load_model(LOAD_PREFIX=ARGS.LOAD_PREFIX)
 
     # Evaluate agent
     # This is intentionally not modularized inside the Agent class
