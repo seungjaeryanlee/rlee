@@ -130,6 +130,7 @@ class DQN2015Agent:
                 if episode_reward > max_episode_reward:
                     max_episode_reward = episode_reward
                     self.save()
+                    print("Saved model with episode reward {}".format(episode_reward))
 
                 print(
                     "Frame {:5d}/{:5d}\tReturn {:3.2f}\tLoss {:2.4f}".format(
