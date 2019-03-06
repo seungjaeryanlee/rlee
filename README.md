@@ -35,7 +35,7 @@ Rlee (pronounced "early") is a research framework built on top of PyTorch 1.0 fo
 - [ ] [[QR-DQN] Distributional Reinforcement Learning with Quantile Regression (Dabney et al., 2017)](https://arxiv.org/abs/1710.10044)
 - [ ] [[IQN] Implicit Quantile Networks for Distributional Reinforcement Learning (Dabney et al., 2018)](https://arxiv.org/abs/1806.06923)
 - [ ] [[AIQN] Autoregressive Quantile Networks for Generative Modeling (Ostrovski, Dabney, and Munos, 2018)](https://arxiv.org/abs/1806.05575)
-- [ ] [[LS-DQN] Shallow Updates for Deep Reinforcement Learning (Levine et al., 2017)](https://arxiv.org/pdf/1705.07461.pdf)
+- [ ] [[LS-DQN] Shallow Updates for Deep Reinforcement Learning (Levine et al., 2017)](https://arxiv.org/abs/1705.07461)
 - [ ] [[DQN-ITS] Information-Directed Exploration for Deep Reinforcement Learning (Nikolov et al., 2018)](https://arxiv.org/abs/1812.07544)
 - [ ] [[DQN+CTS] Unifying Count-Based Exploration and Intrinsic Motivation (Bellmare et al., 2016)](https://arxiv.org/abs/1606.01868)
 - [ ] [[DQN+PixelCNN] Count-Based Exploration with Neural Density Models (Ostrovski et al., 2017)](https://arxiv.org/abs/1703.01310)
