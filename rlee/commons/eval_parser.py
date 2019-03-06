@@ -75,6 +75,16 @@ def get_eval_args(
         help="Number of episodes for evaluating DQN. Defaults to 1.",
     )
 
+    # Hyperparameters for Replay Buffer
+    parser.add_argument(
+        "--replay-buffer-type",
+        action="store",
+        dest="REPLAY_BUFFER_TYPE",
+        default="uniform",
+        type=str,
+        help="Type of experience replay buffer. Defaults to uniform.",
+    )
+
     # Hyperparameters for Reproducibility
     parser.add_argument(
         "--seed",
@@ -104,11 +114,22 @@ def get_eval_args(
 
     if args.ENV_ID not in ["Acrobot", "CartPole", "MountainCar", "LunarLander", "Pong"]:
         raise ValueError("{} is not a supported environment.".format(args.ENV_ID))
+
+    if args.AGENT not in ["dqn2015", "doubledqn"]:
+        raise ValueError("{} is not a supported agent.".format(args.AGENT))
+
+    if args.REPLAY_BUFFER_TYPE not in ["uniform", "combined"]:
+        raise ValueError(
+            "{} is not a supported replay buffer type.".format(args.REPLAY_BUFFER_TYPE)
+        )
+
     if args.SEED is None:
         print("[WARNING] Seed not set: this run is not reproducible!")
     else:
         print("[INFO] Seed set to {}".format(args.SEED))
 
-    args.LOAD_PREFIX = "{}/{}_{}_best_".format(args.LOAD_DIR, args.ENV_ID, args.AGENT)
+    args.LOAD_PREFIX = "{}/{}_{}_{}_best_".format(
+        args.LOAD_DIR, args.ENV_ID, args.AGENT, args.REPLAY_BUFFER_TYPE
+    )
 
     return args

@@ -168,6 +168,14 @@ def get_train_args(
 
     # Hyperparameters for Replay Buffer
     parser.add_argument(
+        "--replay-buffer-type",
+        action="store",
+        dest="REPLAY_BUFFER_TYPE",
+        default="uniform",
+        type=str,
+        help="Type of experience replay buffer. Defaults to uniform.",
+    )
+    parser.add_argument(
         "--replay-buffer-size",
         action="store",
         dest="REPLAY_BUFFER_SIZE",
@@ -283,6 +291,15 @@ def get_train_args(
 
     if args.ENV_ID not in ["Acrobot", "CartPole", "MountainCar", "LunarLander", "Pong"]:
         raise ValueError("{} is not a supported environment.".format(args.ENV_ID))
+
+    if args.AGENT not in ["dqn2015", "doubledqn"]:
+        raise ValueError("{} is not a supported agent.".format(args.AGENT))
+
+    if args.REPLAY_BUFFER_TYPE not in ["uniform", "combined"]:
+        raise ValueError(
+            "{} is not a supported replay buffer type.".format(args.REPLAY_BUFFER_TYPE)
+        )
+
     if args.SEED is None:
         print("[WARNING] Seed not set: this run is not reproducible!")
     else:
@@ -293,6 +310,8 @@ def get_train_args(
 
     args.USE_HUBER_LOSS = not args.NO_HUBER_LOSS
     args.RMSPROP_CENTERED = not args.RMSPROP_NOT_CENTERED
-    args.SAVE_PREFIX = "{}/{}_{}_best_".format(args.SAVE_DIR, args.ENV_ID, args.AGENT)
+    args.SAVE_PREFIX = "{}/{}_{}_{}_best_".format(
+        args.SAVE_DIR, args.ENV_ID, args.AGENT, args.REPLAY_BUFFER_TYPE
+    )
 
     return args
