@@ -5,8 +5,12 @@ from collections import deque
 import torch
 
 
-class UniformReplayBuffer:
-    """Uniform experience replay used in DQN2013 and DQN2015."""
+class DequeUniformReplayBuffer:
+    """
+    Uniform experience replay used in DQN2013 and DQN2015.
+
+    Implemented using Python's collections.deque.
+    """
 
     def __init__(self, capacity: int) -> None:
         self.buffer: deque = deque(maxlen=capacity)  # noqa: E999

@@ -2,7 +2,7 @@
 
 import torch
 
-from .uniform_replay import UniformReplayBuffer
+from .uniform_replay import DequeUniformReplayBuffer as UniformReplayBuffer
 
 
 def test_uniform_batch_type() -> None:
