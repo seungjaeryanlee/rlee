@@ -1,4 +1,4 @@
-"""Test UniformReplayBuffer."""
+"""Test DequeUniformReplayBuffer."""
 
 import torch
 
