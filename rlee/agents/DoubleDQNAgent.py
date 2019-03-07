@@ -70,8 +70,12 @@ class DoubleDQNAgent(DQN2015Agent):
         Returns
         -------
         loss : torch.FloatTensor
-            MSE loss of target Q and prediction Q that can be backpropagated.
+            Loss of target Q and prediction Q that can be backpropagated.
             Has shape torch.Size([1]).
+        losses : torch.FloatTensor
+            Losses of target Q and prediction Q for each sample. Used in
+            prioritized experience replay. Has shape
+            torch.Size([BATCH_SIZE]).
 
         """
         state_b, action_b, reward_b, next_state_b, done_b = self.replay_buffer.sample(
@@ -112,7 +116,10 @@ class DoubleDQNAgent(DQN2015Agent):
 
         assert expected_q_value.shape == q_value.shape
 
-        # Compute loss
-        loss = self.criterion(q_value, expected_q_value.detach())
+        # Compute losses
+        losses = self.criterion(q_value, expected_q_value.detach())
+        loss = losses.mean().unsqueeze(0)
 
-        return loss
+        # Return loss for backward, losses for updating priorities for
+        # Prioritized Experience Replay
+        return loss, losses

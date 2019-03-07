@@ -46,9 +46,9 @@ def main() -> None:
 
     # Setup Loss Criterion
     if ARGS.USE_HUBER_LOSS:
-        criterion = nn.SmoothL1Loss()
+        criterion = nn.SmoothL1Loss(reduce=False)
     else:
-        criterion = nn.MSELoss()
+        criterion = nn.MSELoss(reduce=False)
 
     if ARGS.DQN_TYPE == "CNN":
         dqn = DQN(
