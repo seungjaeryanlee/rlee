@@ -156,7 +156,9 @@ class DQN2015Agent:
             if len(self.replay_buffer) > self.MIN_REPLAY_BUFFER_SIZE:
                 self.optimizer.zero_grad()
                 replay_batch = self.replay_buffer.sample(self.BATCH_SIZE)
-                loss, _ = self._compute_loss(replay_batch)
+                loss, losses = self._compute_loss(replay_batch)
+                sampled_indices = replay_batch[-1]
+                self.replay_buffer.update_priorities(sampled_indices, losses)
                 loss.backward()
                 self.optimizer.step()
 

@@ -6,6 +6,7 @@ https://arxiv.org/abs/1712.01275
 """
 import random
 from collections import deque
+from typing import List
 
 import torch
 
@@ -86,3 +87,13 @@ class CombinedReplayBuffer:
             torch.cat(done),
             None,  # Used only in PrioritizedReplayBuffer
         )
+
+    def update_priorities(
+        self, sampled_indices: List[int], priorities: List[float]
+    ) -> None:
+        """
+        Do nothing.
+
+        This is a stub function only implemented in PrioritizedReplayBuffer
+        """
+        pass
