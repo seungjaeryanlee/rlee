@@ -1,8 +1,8 @@
-"""Test UniformReplayBuffer."""
+"""Test ListUniformReplayBuffer."""
 
 import torch
 
-from .uniform_replay import UniformReplayBuffer
+from .uniform_replay import ListUniformReplayBuffer as UniformReplayBuffer
 
 
 def test_uniform_batch_type() -> None:
