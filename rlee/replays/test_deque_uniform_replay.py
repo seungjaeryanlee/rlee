@@ -18,7 +18,9 @@ def test_uniform_batch_type() -> None:
         done = torch.FloatTensor([0])
         replay_buffer.push(state, action, reward, next_state, done)
 
-    state_b, action_b, reward_b, next_state_b, done_b = replay_buffer.sample(1)
+    state_b, action_b, reward_b, next_state_b, done_b, sampled_indices = replay_buffer.sample(  # noqa: B950
+        1
+    )
 
     print("S  : ", state_b)
     print("A  : ", action_b)
@@ -46,7 +48,9 @@ def test_uniform_batch_shape() -> None:
         done = torch.FloatTensor([0])
         replay_buffer.push(state, action, reward, next_state, done)
 
-    state_b, action_b, reward_b, next_state_b, done_b = replay_buffer.sample(BATCH_SIZE)
+    state_b, action_b, reward_b, next_state_b, done_b, sampled_indices = replay_buffer.sample(  # noqa: B950
+        BATCH_SIZE
+    )
 
     print("S  : ", state_b)
     print("A  : ", action_b)

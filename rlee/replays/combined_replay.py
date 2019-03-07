@@ -84,4 +84,5 @@ class CombinedReplayBuffer:
             torch.cat(reward),
             torch.cat(next_state),
             torch.cat(done),
+            None,  # Used only in PrioritizedReplayBuffer
         )

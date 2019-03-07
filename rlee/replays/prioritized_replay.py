@@ -99,6 +99,7 @@ class ListPrioritizedReplayBuffer:
             torch.cat(reward),
             torch.cat(next_state),
             torch.cat(done),
+            sampled_indices,  # None for other replay types
         )
 
     def update_priorities(

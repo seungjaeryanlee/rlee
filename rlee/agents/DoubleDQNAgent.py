@@ -78,7 +78,7 @@ class DoubleDQNAgent(DQN2015Agent):
             torch.Size([BATCH_SIZE]).
 
         """
-        state_b, action_b, reward_b, next_state_b, done_b = self.replay_buffer.sample(
+        state_b, action_b, reward_b, next_state_b, done_b, sampled_indices = self.replay_buffer.sample(  # noqa: B950
             self.BATCH_SIZE
         )
         state_batch = state_b.to(self.device)
