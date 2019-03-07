@@ -80,11 +80,11 @@ class DequeUniformReplayBuffer:
         )
 
 
-class CircularUniformReplayBuffer:
+class ListUniformReplayBuffer:
     """
     Uniform experience replay used in DQN2013 and DQN2015.
 
-    Implemented using circular buffer.
+    Implemented using Python List.
     """
 
     def __init__(self, capacity: int) -> None:
