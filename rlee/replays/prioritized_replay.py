@@ -62,8 +62,8 @@ class ListPrioritizedReplayBuffer:
         self.transitions.append(
             (state, torch.LongTensor([action]), reward, next_state, done)
         )
-        self._increment_cursor()
         self.sum_tree.set(self.cursor, self.DEFAULT_PRIORITY)
+        self._increment_cursor()
 
         # Remove oldest transitions
         while len(self.transitions) > self.capacity:
