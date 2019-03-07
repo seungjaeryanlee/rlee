@@ -4,6 +4,7 @@ Prioritized experience replay in PER.
 Prioritized Experience Replay
 https://arxiv.org/abs/1511.05952
 """
+import random
 from typing import List
 
 import torch
@@ -90,7 +91,22 @@ class ListPrioritizedReplayBuffer:
 
         """
         sampled_indices = self.sum_tree.stratified_sample(batch_size)
-        samples = [self.transitions[i] for i in sampled_indices]
+        # Some of these indices might be invalid. We select uniformly
+        # random to replace these invalid indices.
+        samples = []
+        for sampled_index in sampled_indices:
+            if len(self.transitions) - 1 < sampled_index:  # Invalid index
+                sample = random.sample(self.transitions, 1)[0]
+                print(
+                    "[INFO] Stratified sampling led to invalid index"
+                    " {} when current length was {}".format(
+                        sampled_index, len(self.transitions)
+                    )
+                )
+                exit()
+            else:
+                sample = self.transitions[sampled_index]
+            samples.append(sample)
         state, action, reward, next_state, done = zip(*samples)
 
         return (
