@@ -118,7 +118,7 @@ def get_eval_args(
     if args.AGENT not in ["dqn2015", "doubledqn"]:
         raise ValueError("{} is not a supported agent.".format(args.AGENT))
 
-    if args.REPLAY_BUFFER_TYPE not in ["uniform", "combined"]:
+    if args.REPLAY_BUFFER_TYPE not in ["uniform", "combined", "prioritized"]:
         raise ValueError(
             "{} is not a supported replay buffer type.".format(args.REPLAY_BUFFER_TYPE)
         )

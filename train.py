@@ -92,6 +92,11 @@ def main() -> None:
 
         replay_buffer = CombinedReplayBuffer(ARGS.REPLAY_BUFFER_SIZE)  # type: ignore
         print("[INFO] Using COMBINED replay buffer.")
+    elif ARGS.REPLAY_BUFFER_TYPE == "prioritized":
+        from rlee.replays import PrioritizedReplayBuffer
+
+        replay_buffer = PrioritizedReplayBuffer(ARGS.REPLAY_BUFFER_SIZE)  # type: ignore
+        print("[INFO] Using PRIORITIZED replay buffer.")
 
     # Initialize agent
     if ARGS.AGENT == "dqn2015":
