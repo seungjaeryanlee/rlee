@@ -48,3 +48,18 @@ def test_sum_tree_zero_sample_from_two_nonzero_values() -> None:
 
     print("Sampled node index: ", sampled_idx)
     assert sampled_idx in [2, 3]
+
+
+def test_sum_tree_stratified_sample() -> None:
+    """Test stratified_sample()."""
+    sum_tree = SumTree(4)
+
+    sum_tree.set(0, 1)
+    sum_tree.set(1, 1)
+    sum_tree.set(2, 1)
+    sum_tree.set(3, 1)
+
+    sampled_indices = sum_tree.stratified_sample(4)
+
+    print("Sampled node index: ", sampled_indices)
+    assert sampled_indices == [0, 1, 2, 3]
