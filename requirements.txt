@@ -2,7 +2,7 @@ atari-py==0.1.7
 ConfigArgParse==0.14.0
 gym==0.10.9
 numpy==1.15.4
-opencv-python==3.4.5.20
+opencv-python==4.2.0.32
 scipy==1.2.0
 torch==1.0.0
 wandb==0.6.32
